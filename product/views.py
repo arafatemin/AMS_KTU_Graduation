@@ -46,7 +46,7 @@ def product_create_view(request):
     return render(request, "product/productCreate.html", context)
 
 
-    # return render(request, "product/productCreate.html", context)
+
 
 
 

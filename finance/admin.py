@@ -7,8 +7,16 @@ class OutcomeAdmin(admin.ModelAdmin):
     list_display_links = ['user']
     list_per_page = 10
 
-admin.site.register(OutcomeCategory)
 admin.site.register(Outcome, OutcomeAdmin)
+
+
+
+class OutcomeCategoryAdmin(admin.ModelAdmin):
+    model = OutcomeCategory
+    list_display = ['name']
+
+admin.site.register(OutcomeCategory, OutcomeCategoryAdmin)
+
 
 
 class IncomeAdmin(admin.ModelAdmin):
@@ -17,8 +25,17 @@ class IncomeAdmin(admin.ModelAdmin):
     list_display_links = ['user']
     list_per_page = 10
 
-admin.site.register(IncomeCategory)
 admin.site.register(Income, IncomeAdmin)
+
+
+
+class IncomeCategoryAdmin(admin.ModelAdmin):
+    model = IncomeCategory
+    list_display = ['name']
+
+admin.site.register(IncomeCategory, IncomeCategoryAdmin)
+
+
 
 
 

@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <body>
+    <div class="main-wrapper">
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+
+                {% for message in messages %}
+                    {% if message %}
+                        <div class="alert alert-success text-center">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                <div class="page-header">
+                    <div class="content-page-header">
+                        <h5>Income Categories</h5>
+                        <div class="list-btn">
+                            <ul class="filter-list">
+                                <li>
+                                    <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
+                                       data-bs-placement="bottom" title="Filter"><span class="me-2"><img
+                                            src="{% static 'assets/img/icons/filter-icon.svg' %}" alt="Filter"></span>Filter
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="btn btn-primary" href="{% url 'income_category_create' %}"><i
+                                            class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Income
+                                        Category</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-table">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-stripped table-hover datatable">
+                                        <thead class="thead-light">
+                                        <tr>
+                                            <th>Income Category ID</th>
+                                            <th>Income Category Name</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for income_category in income_categories %}
+                                            <tr>
+                                                <td># {{ income_category.id }}</td>
+                                                <td>
+                                                    <a href="#" class="invoice-link">{{ income_category.name }}</a>
+                                                </td>
+                                                </td>
+                                                <td class="d-flex align-items-center">
+                                                    <a class=" btn-action-icon me-1" href="javascript:void(0);"
+                                                       download><i
+                                                            class="fe fe-download"></i></a>
+                                                    <div class="dropdown dropdown-action ">
+                                                        <a href="#" class=" btn-action-icon " data-bs-toggle="dropdown"
+                                                           aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <ul>
+                                                                <li>
+                                                                    <a class="dropdown-item"
+                                                                       href="{% url 'income_category_update' income_category.id %}"><i
+                                                                            class="far fa-edit me-2"></i>Edit</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item"
+                                                                       href="{% url 'income_category_delete' income_category.id %}"><i
+                                                                            class="far fa-trash-alt me-2"></i>Delete</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="toggle-sidebar">
+            <div class="sidebar-layout-filter">
+                <div class="sidebar-header">
+                    <h5>Filter</h5>
+                    <a href="#" class="sidebar-closes"><i class="fa-regular fa-circle-xmark"></i></a>
+                </div>
+                <div class="sidebar-body">
+                    <form action="#" autocomplete="off">
+
+                        <div class="accordion" id="accordionMain1">
+                            <div class="card-header-new" id="headingOne">
+                                <h6 class="filter-title">
+                                    <a href="javascript:void(0);" class="w-100" data-bs-toggle="collapse"
+                                       data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Customer
+                                        <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
+                                    </a>
+                                </h6>
+                            </div>
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                 data-bs-parent="#accordionExample1">
+                                <div class="card-body-chat">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div id="checkBoxes1">
+                                                <div class="form-custom">
+                                                    <input type="text" class="form-control" id="member_search1"
+                                                           placeholder="Search here">
+                                                    <span><img src="{% static 'assets/img/icons/search.svg' %}"
+                                                               alt="img"></span>
+                                                </div>
+                                                <div class="selectBox-cont">
+                                                    <label class="custom_check w-100">
+                                                        <input type="checkbox" name="username">
+                                                        <span class="checkmark"></span> Brian Johnson
+                                                    </label>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit"
+                                class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
+                            <span><img src="{% static 'assets/img/icons/chart.svg' %}" class="me-2"
+                                       alt="Generate report"></span>Generate
+                            report
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+{% endblock %}

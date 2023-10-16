@@ -6,9 +6,19 @@
         <div class="page-wrapper">
             <div class="content container-fluid">
 
+
+            {% for message in messages %}
+                    {% if message %}
+                        <div class="alert alert-success text-center">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+
                 <div class="page-header">
                     <div class="content-page-header">
-                        <h5>Expenses</h5>
+                        <h5>Income</h5>
                         <div class="list-btn">
                             <ul class="filter-list">
                                 <li>
@@ -18,8 +28,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="btn btn-primary" href="add-expenses.html"><i
-                                            class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Expenses</a>
+                                    <a class="btn btn-primary" href="{% url 'income_create' %}"><i
+                                            class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Income</a>
                                 </li>
                             </ul>
                         </div>
@@ -41,15 +51,15 @@
                                             <th>Staff</th>
                                             <th>description</th>
                                             <th>Date</th>
-                                            <th class="text-end">Action</th>
+                                            <th>Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         {% for income in incomes %}
                                             <tr>
-                                                <td>{{ income.id }}</td>
+                                                <td># {{ income.id }}</td>
                                                 <td>
-                                                    <a href="#" class="invoice-link">{{ income.inCategory.name }}</a>
+                                                    <a href="{% url 'income_category' %}" class="invoice-link">{{ income.inCategory.name }}</a>
                                                 </td>
                                                 <td>$ {{ income.amount }}</td>
                                                 <td>{{ income.user.username }}</td>
@@ -69,14 +79,13 @@
                                                             <ul>
                                                                 <li>
                                                                     <a class="dropdown-item"
-                                                                       href="edit-expenses.html"><i
+                                                                       href="{% url 'income_update' income.id %}"><i
                                                                             class="far fa-edit me-2"></i>Edit</a>
                                                                 </li>
                                                                 <li>
-                                                                    <a class="dropdown-item" href="javascript:void(0);"
-                                                                       data-bs-toggle="modal"
-                                                                       data-bs-target="#delete_modal"><i
+                                                                    <a class="dropdown-item" href="{% url 'income_delete' income.id %}"><i
                                                                             class="far fa-trash-alt me-2"></i>Delete</a>
+
                                                                 </li>
                                                             </ul>
                                                         </div>

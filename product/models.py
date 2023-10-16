@@ -96,8 +96,7 @@ class Order(models.Model):
     order_quantity = models.PositiveIntegerField(blank=True, null=True)
     datetime = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"{self.staff.username} - {self.product.name}"
+    
 
 
     class Meta:

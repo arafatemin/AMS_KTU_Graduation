@@ -63,6 +63,7 @@
                     </span>
                     {% endif %}
 
+                    </span>
                 </a>
 
                 <div class="dropdown-menu menu-drop-user" style="border-radius: 15px">
@@ -151,19 +152,17 @@
                     </li>
 
 
-
-
-                <li class="submenu">
+                    <li class="submenu">
 
                         <a href="#"><i class="fas fa-money-bill"></i> <span>Finance</span> <span
                                 class="menu-arrow"></span></a>
                         <ul>
-                            <li><a href="{% url 'income' %}">Income Category</a></li>
+
                             <li><a href="{% url 'income' %}">Income</a></li>
+                            <li><a href="{% url 'outcome' %}">Outcome</a></li>
+                            <li><a href="{% url 'income_category' %}">Income Category</a></li>
+                            <li><a href="{% url 'outcome_category' %}">Outcome Category</a></li>
 
-
-                            <li><a href="{% url 'income' %}">Outcome Category</a></li>
-                            <li><a href="{% url 'income' %}">Outcome</a></li>
                         </ul>
 
                     </li>
