@@ -19,6 +19,12 @@ class UnitType(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['-name']
+
+
+
+
 class Tax(models.Model):
     amount                = models.IntegerField(null=True,blank=True, unique=True)
     description         = models.TextField(null=True,blank=True)
@@ -26,12 +32,18 @@ class Tax(models.Model):
     def __str__(self):
         return f'%{self.amount}'
 
+
+
+
 class ProductCategory(models.Model):
     title                       = models.CharField(max_length=64,unique=True)
     description                 = models.TextField()
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        ordering = ['-title']
 
 
 
@@ -81,12 +93,13 @@ class ProductInStock(models.Model):
     product = models.ForeignKey(Product, blank=True, null=True, on_delete=models.CASCADE)
 
 
-
-
-
     class Meta:
         verbose_name = 'ProductsInStock'
         ordering = ['-datetime']
+
+
+
+
 
 
 
@@ -95,8 +108,6 @@ class Order(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
     order_quantity = models.PositiveIntegerField(blank=True, null=True)
     datetime = models.DateTimeField(auto_now_add=True)
-
-    
 
 
     class Meta:

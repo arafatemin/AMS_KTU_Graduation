@@ -82,6 +82,9 @@
                                         <tr>
                                             <th>Tax Amount</th>
                                             <th>Tax Description</th>
+                                            {% if user.is_superuser %}
+                                                <th class="text-end">Action</th>
+                                            {% endif %}
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -89,6 +92,14 @@
                                             <tr>
                                                 <td>{{ tax.amount }} %</td>
                                                 <td>{{ tax.description|truncatechars:30 }}</td>
+                                                {% if user.is_superuser %}
+                                                    <td class="text-end">
+                                                        <a href="{% url 'productTaxUpdate' tax.id %}"
+                                                           class="btn btn-outline-info btn-sm">Edit</a>
+                                                        <a href="{% url 'productTaxDelete' tax.id %}"
+                                                           class="btn btn-outline-danger btn-sm">Delete</a>
+                                                    </td>
+                                                {% endif %}
                                             </tr>
                                         {% endfor %}
                                         </tbody>
@@ -166,7 +177,6 @@
                         </div>
 
 
-
                         <div class="filter-buttons">
                             <button type="submit"
                                     class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
@@ -181,8 +191,6 @@
                 </div>
             </div>
         </div>
-
-
 
 
     </div>

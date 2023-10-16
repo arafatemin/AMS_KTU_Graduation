@@ -108,6 +108,9 @@
                                         <tr>
                                             <th>Category Name</th>
                                             <th>Category Description</th>
+                                            {% if user.is_superuser %}
+                                                <th class="text-end">Action</th>
+                                            {% endif %}
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -115,6 +118,14 @@
                                             <tr>
                                                 <td>{{ category.title }}</td>
                                                 <td>{{ category.description|truncatechars:30 }}</td>
+                                                {% if user.is_superuser %}
+                                                    <td class="text-end">
+                                                        <a href="{% url 'productCategoryUpdate' category.id %}"
+                                                           class="btn btn-outline-info btn-sm">Edit</a>
+                                                        <a href="{% url 'productCategoryDelete' category.id %}"
+                                                           class="btn btn-outline-danger btn-sm">Delete</a>
+                                                    </td>
+                                                {% endif %}
                                             </tr>
 
                                         {% endfor %}

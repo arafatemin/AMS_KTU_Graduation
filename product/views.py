@@ -41,14 +41,8 @@ def product_create_view(request):
         'categories': ProductCategory.objects.all(),
         'units': UnitType.objects.all(),
 
-
     }
     return render(request, "product/productCreate.html", context)
-
-
-
-
-
 
 
 @login_required
@@ -76,7 +70,6 @@ def product_delete_view(request, pk):
     return render(request, "product/productDelete.html", {"product": product})
 
 
-
 @login_required
 def product_category_view(request):
     products = Product.objects.all()
@@ -101,6 +94,31 @@ def category_create_view(request):
 
 
 @login_required
+def product_category_update_view(request, pk):
+    category = ProductCategory.objects.get(id=pk)
+    if request.method == "POST":
+        form = CategoryFrom(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect("productCategory")
+    else:
+        form = CategoryFrom(instance=category)
+    context = {
+        'form': form,
+    }
+    return render(request, "product/category/product_category_update.html", context)
+
+
+@login_required
+def product_category_delete_view(request, pk):
+    category = ProductCategory.objects.get(id=pk)
+    if request.method == "POST":
+        category.delete()
+        return redirect("productCategory")
+    return render(request, "product/category/product_category_delete.html", {"product_category": category})
+
+
+@login_required
 def product_unit_view(request):
     unitTypes = UnitType.objects.all()
     context = {
@@ -121,6 +139,28 @@ def unit_create_view(request):
 
     return render(request, "product/Unit/unitCreate.html", {"form": form})
 
+
+def product_unit_update_view(request, pk):
+    unit = UnitType.objects.get(id=pk)
+    if request.method == "POST":
+        form = UnitFrom(request.POST, instance=unit)
+        if form.is_valid():
+            form.save()
+            return redirect("productUnit")
+    else:
+        form = UnitFrom(instance=unit)
+    context = {
+        'form': form,
+    }
+    return render(request, "product/Unit/productUnitUpdate.html", context)
+
+
+def product_unit_delete_view(request, pk):
+    unit = UnitType.objects.get(id=pk)
+    if request.method == "POST":
+        unit.delete()
+        return redirect("productUnit")
+    return render(request, "product/Unit/productUnitDelete.html", {"product_unit": unit})
 
 
 @login_required
@@ -145,15 +185,27 @@ def tax_create_view(request):
     return render(request, "product/tax/taxCreate.html", {"form": form})
 
 
-
-@login_required
-def product_tax_view(request):
-    taxs = Tax.objects.all()
+def product_tax_update_view(request, pk):
+    tax = Tax.objects.get(id=pk)
+    if request.method == "POST":
+        form = TaxFrom(request.POST, instance=tax)
+        if form.is_valid():
+            form.save()
+            return redirect("productTax")
+    else:
+        form = TaxFrom(instance=tax)
     context = {
-        "taxs": taxs,
+        'form': form,
     }
-    return render(request, "product/tax/productTax.html", context)
+    return render(request, "product/tax/productTaxUpdate.html", context)
 
+
+def product_tax_delete_view(request, pk):
+    tax = Tax.objects.get(id=pk)
+    if request.method == "POST":
+        tax.delete()
+        return redirect("productTax")
+    return render(request, "product/tax/productTaxDelete.html", {"product_tax": tax})
 
 
 @login_required
@@ -184,7 +236,6 @@ def product_stock_view(request):
     return render(request, "Stoke/stoke.html", context)
 
 
-
 @login_required
 def stock_create_view(request):
     if request.method == 'POST':
@@ -200,8 +251,6 @@ def stock_create_view(request):
     else:
         form = StockFrom()
     return render(request, "Stoke/stoke.html", {"form": form})
-
-
 
 
 @login_required
@@ -221,7 +270,6 @@ def staff_detail_view(request, pk):
         "user": user
     }
     return render(request, "Authentication/profile.html", context)
-
 
 
 @login_required
@@ -247,8 +295,6 @@ def staff_update_view(request, pk):
     return render(request, "staff/staffUpdate.html", context)
 
 
-
-
 @login_required
 def staff_delete_view(request, pk):
     user = User.objects.get(id=pk)
@@ -258,8 +304,6 @@ def staff_delete_view(request, pk):
     return render(request, "staff/staffDelete.html", {"user": user})
 
 
-
-
 @login_required
 def order_view(request):
     orders = Order.objects.all()
@@ -267,6 +311,7 @@ def order_view(request):
         "orders": orders,
     }
     return render(request, "Staff/order.html", context)
+
 
 @login_required
 def order_Create_view(request):
