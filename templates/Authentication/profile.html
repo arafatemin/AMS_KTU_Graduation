@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <body>
+
+    <div class="main-wrapper">
+
+
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+                <div class="row justify-content-lg-center">
+                    <div class="col-lg-10">
+
+                        <div class="page-header">
+                            <div class="content-page-header">
+                                <h5>Profile</h5>
+                            </div>
+                        </div>
+
+                        <div class="profile-cover">
+                            <div class="profile-cover-wrap">
+                                <img class="profile-cover-img" src="{% static 'assets/images/guzel.JPG' %}"
+                                     alt="Profile Cover" id="cover-image">
+
+
+                            </div>
+                        </div>
+                        <div class="text-center mb-5">
+                            {% if user.profile.image %}
+                                <label class="avatar avatar-xxl profile-cover-avatar" for="avatar_upload">
+                                    <img class="avatar-img" src="{{ user.profile.image.url }}" alt="Profile Image"
+                                         id="blah">
+                                    <input type="file" id="avatar_upload">
+
+                                </label>
+                            {% else %}
+                                <label class="avatar avatar-xxl profile-cover-avatar" for="avatar_upload">
+                                    <img class="avatar-img" src="{% static 'assets/images/guzel.JPG' %}"
+                                         alt="Profile Image"
+                                         id="blah">
+                                    <input type="file" id="avatar_upload">
+
+                                </label>
+
+                            {% endif %}
+                            <h2>{{ user.username|title }} {{ user.last_name|title }}<i
+                                    class="fas fa-certificate text-primary small" data-toggle="tooltip"
+                                    data-placement="top" title data-original-title="Verified"></i></h2>
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <i class="fa-staff-snake"></i> <span>{{ user.profile.department }}</span>
+                                </li>
+                                <li class="list-inline-item">
+                                    <i class="fas fa-map-marker-alt"></i> {{ user.profile.address|truncatewords:4 }}
+                                </li>
+                                <li class="list-inline-item">
+                                    <i class="far fa-calendar-alt"></i>
+                                    <span>Joined {{ user.date_joined|date:'Y-m-d H:m:s' }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title d-flex justify-content-between">
+                                            <span>Profile</span>
+                                            <a class="btn btn-sm btn-white" href="{% url 'setting' %}">Edit</a>
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="list-unstyled mb-0">
+                                            <li class="py-0">
+                                                <h6>About</h6>
+                                            </li>
+                                            {% if user.is_superuser %}
+                                                <li>
+                                                    Welcome Manager
+                                                </li>
+                                                <li>
+                                                    <b style="color: #7539FF;">{{ user.username|title }} {{ user.last_name|title }}</b>
+                                                </li>
+
+                                            {% else %}
+                                                <li>
+                                                    Welcome Assistant Director
+                                                <li>
+                                                    <b style="color: #7539FF;">{{ user.username|title }} {{ user.last_name|title }}</b>
+                                                </li>
+                                                </li>
+
+                                            {% endif %}
+
+                                            <li class="pt-2 pb-0">
+                                                <h6>Contacts</h6>
+                                            </li>
+                                            <li>
+                                                <a href="#"
+                                                   class="__cf_email__">{{ user.email }}</a>
+                                            </li>
+                                            <li>
+                                                {{ user.profile.phone }}
+                                            </li>
+                                            <li class="pt-2 pb-0">
+                                                <h6>Address</h6>
+                                            </li>
+                                            <li>
+                                                {{ user.profile.address }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Activity</h5>
+                                    </div>
+                                    <div class="card-body card-body-height">
+                                        <ul class="activity-feed">
+                                            <li class="feed-item">
+                                                <div class="feed-date">Nov 16</div>
+                                                <span class="feed-text"><a href="profile.html">Brian Johnson</a> has paid the invoice <a
+                                                        href="invoice-details.html">"#DF65485"</a></span>
+                                            </li>
+                                            <li class="feed-item">
+                                                <div class="feed-date">Nov 7</div>
+                                                <span class="feed-text"><a href="profile.html">Marie Canales</a> has accepted your estimate <a
+                                                        href="view-estimate.html">#GTR458789</a></span>
+                                            </li>
+                                            <li class="feed-item">
+                                                <div class="feed-date">Oct 24</div>
+                                                <span class="feed-text">New expenses added <a href="expenses.html">"#TR018756</a></span>
+                                            </li>
+                                            <li class="feed-item">
+                                                <div class="feed-date">Oct 24</div>
+                                                <span class="feed-text">New expenses added <a href="expenses.html">"#TR018756</a></span>
+                                            </li>
+                                            <li class="feed-item">
+                                                <div class="feed-date">Oct 24</div>
+                                                <span class="feed-text">New expenses added <a href="expenses.html">"#TR018756</a></span>
+                                            </li>
+                                            <li class="feed-item">
+                                                <div class="feed-date">Oct 24</div>
+                                                <span class="feed-text">New expenses added <a href="expenses.html">"#TR018756</a></span>
+                                            </li>
+                                            <li class="feed-item">
+                                                <div class="feed-date">Oct 24</div>
+                                                <span class="feed-text">New expenses added <a href="expenses.html">"#TR018756</a></span>
+                                            </li>
+                                            <li class="feed-item">
+                                                <div class="feed-date">Jan 27</div>
+                                                <span class="feed-text"><a href="profile.html">Robert Martin</a> gave a review for <a
+                                                        href="product-details.html">"Dell Laptop"</a></span>
+                                            </li>
+                                            <li class="feed-item">
+                                                <div class="feed-date">Jan 14</div>
+                                                <span class="feed-text">New customer registered <a href="profile.html">"Tori Carter"</a></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="assets/js/jquery-3.7.0.min.js"></script>
+
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+
+    <script src="assets/plugins/datatables/datatables.min.js"></script>
+
+    <script src="assets/plugins/select2/js/select2.min.js"></script>
+
+    <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <script src="assets/plugins/moment/moment.min.js"></script>
+    <script src="assets/js/bootstrap-datetimepicker.min.js"></script>
+
+    <script src="assets/js/jquery-ui.min.js"></script>
+
+    <script src="assets/js/script.js"></script>
+    </body>
+
+    <!-- Mirrored from kanakku.dreamguystech.com/html/template/profile.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Oct 2023 15:21:26 GMT -->
+    </html>
+
+{% endblock %}

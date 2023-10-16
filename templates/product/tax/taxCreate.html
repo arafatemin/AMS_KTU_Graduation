@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <body>
+
+    <div class="main-wrapper">
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+                <div class="content-page-header">
+                    <h5>Add Tax</h5>
+                </div>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card-body">
+                                <div class="form-group-item border-0 pb-0 mb-0">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-sm-12">
+                                            <div class="form-group">
+                                                <label>Category Name <span class="text-danger">*</span></label>
+                                                <input type="text" name="amount" class="form-control"
+                                                       placeholder="Enter Name">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-12 description-box">
+                                            <div class="form-group" id="summernote_container">
+                                                <label class="form-control-label">Product Descriptions</label>
+                                                <textarea name="description" class="summernote form-control"
+                                                          placeholder="Type your message"></textarea>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="text-end">
+                        <a href="{% url 'productTax' %}" class="btn btn-primary cancel me-2">Cancel</a>
+                        <input type="submit" class="btn btn-primary" value="Add Category">
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    </body>
+
+{% endblock %}

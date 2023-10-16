@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+    <body>
+
+    <div class="main-wrapper">
+
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+
+
+                <div class="row">
+
+                    <div class="col-xl-12 col-md-8">
+                        <div class="content w-100 pt-0">
+                            <div class="content-page-header">
+                                <h5>Account Settings</h5>
+                            </div>
+                            <form action="" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ user_form|crispy }}
+                                {{ profile_form|crispy }}
+                                <input type="submit" class="btn btn-outline-primary" value="Save Change">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    </body>
+
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <body>
+
+    <div class="main-wrapper">
+
+
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+
+                <div class="page-header">
+                    <div class="content-page-header">
+                        <h5>Purchase Orders</h5>
+                        <div class="list-btn">
+                            <ul class="filter-list">
+                                <li>
+                                    <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
+                                       data-bs-placement="bottom" data-bs-original-title="Filter"><span
+                                            class="me-2"><img src="{% static 'assets/img/icons/filter-icon.svg' %}"
+                                                              alt="filter"></span>Filter </a>
+                                </li>
+
+                                <li>
+                                    <a class="btn btn-primary" href="{% url 'orderCreate' %}"><i
+                                            class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Order</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-table">
+                            <div class="card-body">
+                                <div class="table-responsive">
+
+                                    <table class="table table-stripped table-hover datatable">
+                                        <thead class="thead-light">
+                                        <tr>
+                                            <th>Order By</th>
+                                            <th>Product</th>
+                                            <th>Category</th>
+                                            <th>Quantity</th>
+                                            <th>Date</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for order in orders %}
+                                            <tr>
+                                                <td>
+                                                    <h2 class="table-avatar">
+                                                        {% if order.staff.profile.image %}
+                                                            <a href="{% url 'staff' %}"
+                                                               class="avatar avatar-sm me-2"><img
+                                                                    class="avatar-img rounded-circle"
+                                                                    src="{{ order.staff.profile.image.url }}"
+                                                                    alt="User Image"></a>
+
+                                                        {% else %}
+                                                            <a href="{% url 'staff' %}"
+                                                               class="avatar avatar-sm me-2"><img
+                                                                    class="avatar-img rounded-circle"
+                                                                    src="{% static 'assets/img/profiles/avatar-14.jpg' %}"
+                                                                    alt="User Image"></a>
+
+                                                        {% endif %}
+                                                        <a href="{% url 'staff' %}">{{ order.staff.username }}
+                                                            <span>{{ order.staff.email }}</span></a>
+                                                    </h2>
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'productListView' %}">{{ order.product.name }}</a>
+                                                </td>
+                                                <td>{{ order.product.category.title }}</td>
+
+                                                <td>{{ order.order_quantity }}</td>
+
+                                                <td>{{ order.datetime|date:"Y-m-d H:m:s" }}</td>
+                                                </td>
+
+                                            </tr>
+                                        {% endfor %}
+
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+    </body>
+
+    <!-- Mirrored from kanakku.dreamguystech.com/html/template/purchase-orders.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Oct 2023 15:23:30 GMT -->
+    </html>
+{% endblock %}

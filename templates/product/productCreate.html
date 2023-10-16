@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+
+    <body>
+
+    <div class="main-wrapper">
+
+
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+                <div class="page-header">
+                    <div class="content-page-header">
+                        <h5>Add Products / Services</h5>
+                    </div>
+                </div>
+
+
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+
+
+                    {#                                        <div class="row">#}
+                    {#                                            <div class="col-md-12">#}
+                    {#                                                <div class="card-body">#}
+                    {#                                                    <div class="form-group-item">#}
+                    {#                                                        <h5 class="form-title">Basic Details</h5>#}
+                    {#                                                        <div class="row">#}
+                    {#                                                            <div class="col-lg-4 col-md-6 col-sm-12">#}
+                    {#                                                                <div class="form-group">#}
+                    {#                                                                    <label>Product Name <span class="text-danger"> *</span></label>#}
+                    {#                                                                    <input type="text" name="name" class="form-control"#}
+                    {#                                                                           placeholder="Enter Product Name">#}
+                    {#                                                                </div>#}
+                    {#                                                            </div>#}
+                    {#                                                            <div class="col-lg-4 col-md-6 col-sm-12">#}
+                    {#                                                                <div class="form-group add-products">#}
+                    {#                                                                    <label>Product Code (SKU)<span class="text-danger"> *</span></label>#}
+                    {#                                                                    <input type="text" name="productCode" class="form-control"#}
+                    {#                                                                           placeholder="Enter Product Code">#}
+                    {##}
+                    {#                                                                </div>#}
+                    {#                                                            </div>#}
+                    {#                                                            <div class="col-lg-4 col-md-6 col-sm-12">#}
+                    {#                                                                <div class="form-group">#}
+                    {#                                                                    <label>Quantity </label>#}
+                    {#                                                                    <input type="number" class="form-control" placeholder="Enter Quantity"#}
+                    {#                                                                           name="quentity">#}
+                    {#                                                                </div>#}
+                    {#                                                            </div>#}
+                    {#                                                            <div class="col-lg-4 col-md-6 col-sm-12">#}
+                    {#                                                                <div class="form-group">#}
+                    {#                                                                    <label>Selling Price <span class="text-danger"> *</span></label>#}
+                    {#                                                                    <input type="number" name="sell_price" class="form-control"#}
+                    {#                                                                           placeholder="Enter Selling Price">#}
+                    {#                                                                </div>#}
+                    {#                                                            </div>#}
+                    {#                                                            <div class="col-lg-4 col-md-6 col-sm-12">#}
+                    {#                                                                <div class="form-group">#}
+                    {#                                                                    <label>Purchase Price <span class="text-danger"> *</span></label>#}
+                    {#                                                                    <input type="number" name="purchase_price" class="form-control"#}
+                    {#                                                                           placeholder="Enter Purchase Prices">#}
+                    {#                                                                </div>#}
+                    {#                                                            </div>#}
+                    {#                                                            <div class="col-lg-4 col-md-6 col-sm-12">#}
+                    {#                                                                <div class="form-group">#}
+                    {#                                                                    <label>Categories</label>#}
+                    {#                                                                    <select class="select">#}
+                    {#                                                                        {% for category in categories %}#}
+                    {#                                                                            <option name="category">{{ category.title }}</option>#}
+                    {#                                                                        {% endfor %}#}
+                    {##}
+                    {#                                                                    </select>#}
+                    {#                                                                </div>#}
+                    {#                                                            </div>#}
+                    {#                                                            <div class="col-lg-4 col-md-6 col-sm-12">#}
+                    {#                                                                <div class="form-group">#}
+                    {#                                                                    <label>Units</label>#}
+                    {#                                                                    <select class="select">#}
+                    {#                                                                        {% for unit in units %}#}
+                    {#                                                                            <option name="type">{{ unit.name }}</option>#}
+                    {#                                                                        {% endfor %}#}
+                    {##}
+                    {##}
+                    {#                                                                    </select>#}
+                    {#                                                                </div>#}
+                    {#                                                            </div>#}
+                    {##}
+                    {#                                                            <div class="col-lg-4 col-md-6 col-sm-12">#}
+                    {#                                                                <div class="form-group">#}
+                    {#                                                                    <label>Tax</label>#}
+                    {#                                                                    <select class="select">#}
+                    {#                                                                        {% for tax in taxs %}#}
+                    {#                                                                            <option>{{ tax.amount }}</option>#}
+                    {#                                                                        {% endfor %}#}
+                    {#                                                                    </select>#}
+                    {#                                                                </div>#}
+                    {#                                                            </div>#}
+                    {#                                                        </div>#}
+                    {#                                                    </div>#}
+                    {#                                                    <div class="form-group-item">#}
+                    {#                                                        <div class="row">#}
+                    {#                                                            <div class="col-xl-6 col-lg-6 col-md-6 col-12 description-box">#}
+                    {#                                                                <div class="form-group" id="summernote_container">#}
+                    {#                                                                    <label class="form-control-label">Product Descriptions</label>#}
+                    {#                                                                    <textarea class="summernote form-control"#}
+                    {#                                                                              placeholder="Type your message"></textarea>#}
+                    {#                                                                </div>#}
+                    {#                                                            </div>#}
+                    {#                                                            <div class="col-xl-6 col-lg-6 col-md-6 col-12">#}
+                    {#                                                                <div class="form-group">#}
+                    {#                                                                    <label>Product Image</label>#}
+                    {#                                                                    <div class="form-group service-upload mb-0">#}
+                    {#                                                                        <span><img src="{% static 'assets/img/icons/drop-icon.svg' %}"#}
+                    {#                                                                                   alt="upload"></span>#}
+                    {#                                                                        <h6 class="drop-browse align-center">#}
+                    {#                                                                            Drop your files here or<span#}
+                    {#                                                                                class="text-primary ms-1">browse</span#}
+                    {#                                                                        >#}
+                    {#                                                                        </h6>#}
+                    {#                                                                        <p class="text-muted">Maximum size: 50MB</p>#}
+                    {#                                                                        <input type="file" name="image" multiple id="image_sign">#}
+                    {#                                                                        <div id="frames"></div>#}
+                    {#                                                                    </div>#}
+                    {#                                                                </div>#}
+                    {#                                                            </div>#}
+                    {#                                                        </div>#}
+                    {#                                                    </div>#}
+                    {##}
+                    {##}
+                    {##}
+                    {##}
+                    {##}
+                    {#                                                </div>#}
+                    {#                                            </div>#}
+                    {#                                        </div>#}
+
+
+                    <div class="text-end">
+                        <a href="{% url 'productListView' %}" class="btn btn-primary cancel me-2">Cancel</a>
+                        <input type="submit" class="btn btn-primary" value="Add Category">
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+    </body>
+
+
+{% endblock %}

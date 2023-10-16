@@ -1,0 +1,424 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+    <body>
+
+    <div class="main-wrapper">
+
+
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+                {% for message in messages %}
+                    {% if message %}
+                        <div class="alert alert-success text-center">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                <div class="page-header">
+                    <div class="content-page-header ">
+                        <h5>Products</h5>
+
+
+                        <div class="list-btn">
+                            <ul class="filter-list">
+                                <li>
+                                    <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
+                                       data-bs-placement="bottom" data-bs-original-title="Filter"><span
+                                            class="me-2"><img src="{% static 'assets/img/icons/filter-icon.svg' %}"
+                                                              alt="filter"></span>Filter </a>
+                                </li>
+
+
+                                <li class>
+                                    <div class="dropdown dropdown-action" data-bs-toggle="tooltip"
+                                         data-bs-placement="top" data-bs-original-title="Download">
+                                        <a href="#" class="btn-filters" data-bs-toggle="dropdown" aria-expanded="false"><span><i
+                                                class="fe fe-download"></i></span></a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <ul class="d-block">
+                                                <li>
+                                                    <a class="d-flex align-items-center download-item"
+                                                       href="javascript:void(0);" download><i
+                                                            class="far fa-file-pdf me-2"></i>PDF</a>
+                                                </li>
+                                                <li>
+                                                    <a class="d-flex align-items-center download-item"
+                                                       href="javascript:void(0);" download><i
+                                                            class="far fa-file-text me-2"></i>CVS</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+
+
+                                <li>
+                                    <a class="btn btn-primary" href="{% url 'productCreate' %}"><i
+                                            class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Product</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card invoices-tabs-card">
+                    <div class="invoices-main-tabs">
+                        <div class="row align-items-center">
+                            <div class="col-lg-12">
+                                <div class="invoices-tabs">
+                                    <ul>
+                                        <li><a href="{% url 'productListView' %}" class="active">Product</a></li>
+                                        <li><a href="{% url 'productCategory' %}">Category</a></li>
+                                        <li><a href="{% url 'productUnit' %}">Units</a></li>
+                                        <li><a href="{% url 'productTax' %}">Tax</a></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                {% if user.is_superuser %}
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class=" card-table">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-center table-hover datatable">
+                                            <thead class="thead-light">
+                                            <tr>
+                                                <th>Code</th>
+                                                <th>Name & Category</th>
+                                                <th>Unit</th>
+                                                <th>Quantity</th>
+                                                <th>Selling</th>
+                                                <th>Purchase</th>
+                                                <th>Staff</th>
+                                                <th>Datetime</th>
+                                                <th>Action</th>
+
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            {% for product in products %}
+                                                <tr>
+                                                    <td>{{ product.productCode }}</td>
+                                                    <td>
+                                                        <h2 class="table-avatar">
+                                                            <a href="#" class="avatar avatar-sm me-2"><img
+                                                                    class="avatar-img rounded-circle"
+                                                                    src="{{ product.image }}"
+                                                                    alt="User Image"></a>
+
+
+                                                            <a href="#">{{ product.name }}
+                                                                <span><span>{{ product.category.title }}</span></span></a>
+
+                                                        </h2>
+
+                                                    </td>
+                                                    <td>{{ product.type.name }}</td>
+                                                    <td>{{ product.quentity }}</td>
+                                                    <td>${{ product.sell_price }}</td>
+                                                    <td>${{ product.purchase_price }}</td>
+                                                    <td>{{ product.staff }}</td>
+                                                    <td>{{ product.datetime|date:"Y-m-d H:m" }}</td>
+                                                    <td>
+                                                        <a href="{% url 'productUpdate' product.id %}"
+                                                           class="btn btn-outline-info btn-sm">Edit</a>
+                                                        <a href="{% url 'productDelete' product.id %}"
+                                                           class="btn btn-outline-danger btn-sm">Delete</a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class=" card-table">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-center table-hover datatable">
+                                            <thead class="thead-light">
+                                            <tr>
+                                                <th>Code</th>
+                                                <th>Name & Category</th>
+                                                <th>Unit</th>
+                                                <th>Quantity</th>
+                                                <th>Selling</th>
+                                                <th>Purchase</th>
+                                                <th>Staff</th>
+                                                <th>Datetime</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            {% for product in products %}
+                                                <tr>
+                                                    <td>{{ product.productCode }}</td>
+                                                    <td>
+                                                        <h2 class="table-avatar">
+                                                            <a href="#" class="avatar avatar-sm me-2"><img
+                                                                    class="avatar-img rounded-circle"
+                                                                    src="{{ product.image }}"
+                                                                    alt="User Image"></a>
+
+
+                                                            <a href="#">{{ product.name }}
+                                                                <span><span>{{ product.category.title }}</span></span></a>
+
+                                                        </h2>
+
+                                                    </td>
+                                                    <td>{{ product.type.name }}</td>
+                                                    <td>{{ product.quentity }}</td>
+                                                    <td>${{ product.sell_price }}</td>
+                                                    <td>${{ product.purchase_price }}</td>
+                                                    {% if product.staff.username == profile.staff.username %}
+                                                        <td>Created by {{ profile.staff.username }}</td>
+                                                    {% else %}
+                                                        <td><span style="color: red">{{ product.staff }}</span> Created
+                                                            by {{ profile.staff.username }}</td>
+
+                                                    {% endif %}
+                                                    <td>{{ product.datetime|date:"Y-m-d H:m" }}</td>
+
+                                                </tr>
+                                            {% endfor %}
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endif %}
+
+            </div>
+        </div>
+
+
+        <div class="toggle-sidebar">
+            <div class="sidebar-layout-filter">
+                <div class="sidebar-header">
+                    <h5>Filter</h5>
+                    <a href="#" class="sidebar-closes"><i class="fa-regular fa-circle-xmark"></i></a>
+                </div>
+                <div class="sidebar-body">
+                    <form action="#" autocomplete="off">
+
+                        <div class="accordion" id="accordionMain1">
+                            <div class="card-header-new" id="headingOne">
+                                <h6 class="filter-title">
+                                    <a href="javascript:void(0);" class="w-100" data-bs-toggle="collapse"
+                                       data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Product Name
+                                        <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
+                                    </a>
+                                </h6>
+                            </div>
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                 data-bs-parent="#accordionExample1">
+                                <div class="card-body-chat">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div id="checkBoxes1">
+                                                <div class="form-custom">
+                                                    <input type="text" class="form-control" id="member_search1"
+                                                           placeholder="Search Product">
+                                                    <span><img src="{% static 'assets/img/icons/search.svg' %}"
+                                                               alt="img"></span>
+                                                </div>
+                                                <div class="selectBox-cont">
+                                                    <label class="custom_check w-100">
+                                                        <input type="checkbox" name="username">
+                                                        <span class="checkmark"></span> Lorem ipsum dolor sit
+                                                    </label>
+
+
+                                                    <div class="view-content">
+                                                        <div class="viewall-One">
+
+                                                            <label class="custom_check w-100">
+                                                                <input type="checkbox" name="username">
+                                                                <span class="checkmark"></span> Lorem ipsum dolor sit
+                                                            </label>
+                                                        </div>
+                                                        <div class="view-all">
+                                                            <a href="javascript:void(0);"
+                                                               class="viewall-button-One"><span
+                                                                    class="me-2">View All</span><span><i
+                                                                    class="fa fa-circle-chevron-down"></i></span></a>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="accordion" id="accordionMain2">
+                            <div class="card-header-new" id="headingTwo">
+                                <h6 class="filter-title">
+                                    <a href="javascript:void(0);" class="w-100 collapsed" data-bs-toggle="collapse"
+                                       data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                        Product Code
+                                        <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
+                                    </a>
+                                </h6>
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                 data-bs-parent="#accordionExample2">
+                                <div class="card-body-chat">
+                                    <div id="checkBoxes3">
+                                        <div class="selectBox-cont">
+                                            <div class="form-custom">
+                                                <input type="text" class="form-control" id="member_search2"
+                                                       placeholder="Search Invoice">
+                                                <span><img src="{% static 'assets/img/icons/search.svg' %}"
+                                                           alt="img"></span>
+                                            </div>
+                                            <label class="custom_check w-100">
+                                                <input type="checkbox" name="category">
+                                                <span class="checkmark"></span> P125389
+                                            </label>
+
+
+                                            <div class="view-content">
+                                                <div class="viewall-Two">
+                                                    <label class="custom_check w-100">
+                                                        <input type="checkbox" name="username">
+                                                        <span class="checkmark"></span> P125393
+                                                    </label>
+
+                                                </div>
+
+                                                <div class="view-all">
+                                                    <a href="javascript:void(0);" class="viewall-button-Two"><span
+                                                            class="me-2">View All</span><span><i
+                                                            class="fa fa-circle-chevron-down"></i></span></a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="accordion" id="accordionMain3">
+                            <div class="card-header-new" id="headingThree">
+                                <h6 class="filter-title">
+                                    <a href="javascript:void(0);" class="w-100 collapsed" data-bs-toggle="collapse"
+                                       data-bs-target="#collapseThree" aria-expanded="true"
+                                       aria-controls="collapseThree">
+                                        Units
+                                        <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
+                                    </a>
+                                </h6>
+                            </div>
+                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                                 data-bs-parent="#accordionExample3">
+                                <div class="card-body-chat">
+                                    <div id="checkBoxes2">
+                                        <div class="selectBox-cont">
+                                            <label class="custom_check w-100">
+                                                <input type="checkbox" name="bystatus">
+                                                <span class="checkmark"></span> Inches
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="accordion accordion-last" id="accordionMain4">
+                            <div class="card-header-new" id="headingFour">
+                                <h6 class="filter-title">
+                                    <a href="javascript:void(0);" class="w-100 collapsed" data-bs-toggle="collapse"
+                                       data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                        Category
+                                        <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
+                                    </a>
+                                </h6>
+                            </div>
+                            <div id="collapseFour" class="collapse" aria-labelledby="headingFour"
+                                 data-bs-parent="#accordionExample4">
+                                <div class="card-body-chat">
+                                    <div id="checkBoxes4">
+                                        <div class="selectBox-cont">
+                                            <label class="custom_check w-100">
+                                                <input type="checkbox" name="category">
+                                                <span class="checkmark"></span> Advertising
+                                            </label>
+
+
+                                            <div class="view-content">
+                                                <div class="viewall-Two">
+                                                    <label class="custom_check w-100">
+                                                        <input type="checkbox" name="username">
+                                                        <span class="checkmark"></span> Repairs
+                                                    </label>
+
+                                                </div>
+                                                <div class="view-all">
+                                                    <a href="javascript:void(0);" class="viewall-button-Two"><span
+                                                            class="me-2">View All</span><span><i
+                                                            class="fa fa-circle-chevron-down"></i></span></a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="filter-buttons">
+                            <button type="submit"
+                                    class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
+                                Apply
+                            </button>
+                            <button type="submit"
+                                    class="d-inline-flex align-items-center justify-content-center btn w-100 btn-secondary">
+                                Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    </body>
+
+{% endblock %}
