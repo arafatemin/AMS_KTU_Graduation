@@ -23,8 +23,13 @@ urlpatterns = [
     path('productTaxUpdate/<int:pk>', product_tax_update_view, name='productTaxUpdate'),
     path('productTaxDelete/<int:pk>', product_tax_delete_view, name='productTaxDelete'),
 
-    path('productInStock', product_stock_view, name='productInStock'),
-    path('stockCreateView', stock_create_view, name='stockCreateView'),
+    path('productInStock', stock_view, name='productInStock'),
+    path('stockCreate', stock_create_view, name='stockCreate'),         # yeni stock eklemek icin
+    path('createProductInStock', create_product_in_stock_view, name='createProductInStock'), # yeni urun olusturmak icin
+    path('addNewProductInStock/<int:pk>', add_new_product_in_stock_view, name='addNewProductInStock'), # olusturulan urune yeni gelen urunleri eklemek icin
+    path('addProductInStock/<int:pk>', add_product_from_store_to_stock_view, name='addProductInStock'),  # olusturulan urune productList'ten (dukkandan) urun eklemek icin
+    path('subtractProductFromStockToStore/<int:pk>', subtract_product_from_stock_to_store_view, name='subtractProductFromStockToStore'),  #productList (dukkan) icin var olan urunden urun cikartmak icin
+    # path('createProductFromStockToStore/<int:pk>', create_product_from_stock_to_store_view, name='createProductFromStockToStore'),
 
 
     path('staff', staff_view, name='staff'),

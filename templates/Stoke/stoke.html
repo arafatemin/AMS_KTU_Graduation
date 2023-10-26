@@ -2,328 +2,381 @@
 {% load static %}
 {% block content %}
 
-    <body>
+<body>
 
-    <div class="main-wrapper">
-        <div class="page-wrapper">
-            <div class="content container-fluid">
+<div class="main-wrapper">
+    <div class="page-wrapper">
+        <div class="content container-fluid">
 
-                <div class="page-header">
-                    <div class="content-page-header ">
-                        <h5>Inventory</h5>
-                        <div class="list-btn">
-                            <ul class="filter-list">
-                                <li>
-                                    <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
-                                       data-bs-placement="bottom" title="Filter"><span class="me-2"><img
-                                            src="{% static 'assets/img/icons/filter-icon.svg' %}" alt="filter"></span>Filter
-                                    </a>
-                                </li>
+            {% for message in messages %}
+                {% if message %}
+                    <div class="alert alert-{{ message.tags }} text-center">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
 
-                                <li>
-                                    <div class="dropdown dropdown-action" data-bs-toggle="tooltip"
-                                         data-bs-placement="bottom" title="Download">
-                                        <a href="#" class="btn-filters" data-bs-toggle="dropdown"
-                                           aria-expanded="false"><span><i class="fe fe-download"></i></span></a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <ul class="d-block">
-                                                <li>
-                                                    <a class="d-flex align-items-center download-item"
-                                                       href="javascript:void(0);" download><i
-                                                            class="far fa-file-pdf me-2"></i>PDF</a>
-                                                </li>
-                                                <li>
-                                                    <a class="d-flex align-items-center download-item"
-                                                       href="javascript:void(0);" download><i
-                                                            class="far fa-file-text me-2"></i>CVS</a>
-                                                </li>
-                                            </ul>
-                                        </div>
+            <div class="page-header">
+                <div class="content-page-header ">
+                    <h5>{{ stock }}</h5>
+                    <div class="list-btn">
+                        <ul class="filter-list">
+                            <li>
+                                <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
+                                   data-bs-placement="bottom" title="Filter"><span class="me-2"><img
+                                        src="{% static 'assets/img/icons/filter-icon.svg' %}" alt="filter"></span>Filter
+                                </a>
+
+                            </li>
+
+
+                            <li>
+                                <div class="dropdown dropdown-action" data-bs-toggle="tooltip"
+                                     data-bs-placement="bottom" title="Download">
+                                    <a href="#" class="btn-filters" data-bs-toggle="dropdown"
+                                       aria-expanded="false"><span><i class="fe fe-download"></i></span></a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <ul class="d-block">
+                                            <li>
+                                                <a class="d-flex align-items-center download-item"
+                                                   href="javascript:void(0);" download><i
+                                                        class="far fa-file-pdf me-2"></i>PDF</a>
+                                            </li>
+                                            <li>
+                                                <a class="d-flex align-items-center download-item"
+                                                   href="javascript:void(0);" download><i
+                                                        class="far fa-file-text me-2"></i>CVS</a>
+                                            </li>
+                                        </ul>
                                     </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class=" card-table">
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-center table-hover datatable">
-                                        <thead class="thead-light">
-                                        <tr>
-                                            <th>Code</th>
-                                            <th>User Name</th>
-                                            <th>Name</th>
-                                            <th>Quantity</th>
-                                            <th>Description</th>
-                                            <th>Date Time</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {% for stock in stocks %}
-                                            <tr>
-                                                <td>{{ stock.product.productCode }}</td>
-                                                <td>{{ stock.user.username }}</td>
-                                                <td>{{ stock.product.name }}</td>
-                                                <td>{{ stock.quentity }}</td>
-                                                <td>{{ stock.description|truncatewords:3 }}</td>
-                                                <td>{{ stock.datetime }}</td>
-
-                                                <td class="d-flex align-items-center">
-                                                    <a href="#" class="btn btn-greys bg-success-light me-2"
-                                                       data-bs-toggle="modal" data-bs-target="#stock_in">
-                                                        <i class="fa fa-plus-circle me-1"></i> Stock in
-                                                    </a>
-                                                    <a href="#" class="btn btn-greys bg-danger-light me-2"
-                                                       data-bs-toggle="modal" data-bs-target="#stock_out">
-                                                        <i class="fa fa-plus-circle me-1"></i> Stock out
-                                                    </a>
-
-                                                </td>
-                                            </tr>
-
-                                        {% endfor %}
-
-
-                                        </tbody>
-                                    </table>
                                 </div>
-                            </div>
-                        </div>
+                            </li>
+
+
+                            <li>
+                                <a class="btn btn-primary" href="{% url 'stockCreate' %}"><i
+                                        class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Stock</a>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary" href="{% url 'createProductInStock' %}"><i
+                                        class="fa fa-plus-circle me-2" aria-hidden="true"></i>Create New Product</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-
             </div>
-        </div>
 
 
-        <div class="toggle-sidebar">
-            <div class="sidebar-layout-filter">
-                <div class="sidebar-header">
-                    <h5>Filter</h5>
-                    <a href="#" class="sidebar-closes"><i class="fa-regular fa-circle-xmark"></i></a>
-                </div>
-                <div class="sidebar-body">
-                    <form action="#" autocomplete="off">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class=" card-table">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-center table-hover datatable">
+                                    <thead class="thead-light">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Quantity</th>
+                                        <th>User Name</th>
+                                        <th>Description</th>
+                                        <th>Date Time</th>
+                                        <th>Add From Store</th>
+                                        <th>New Product</th>
+                                        <th>Subtract</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for stock in stocks %}
+                                    <tr>
+                                        {% if stock.product %}
+                                            <td>{{ stock.product.name }}</td>
+                                        {% else %}
+                                            <td>{{ stock.product_name }}</td>
+                                        {% endif %}
+                                        <td>{{ stock.quantity }}</td>
+                                        <td>{{ stock.user.username }}</td>
+                                        <td>{{ stock.description|truncatechars:10 }}</td>
+                                        <td>{{ stock.datetime }}</td>
 
-                        <div class="accordion" id="accordionMain1">
-                            <div class="card-header-new" id="headingOne">
-                                <h6 class="filter-title">
-                                    <a href="javascript:void(0);" class="w-100" data-bs-toggle="collapse"
-                                       data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        Product Name
-                                        <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
-                                    </a>
-                                </h6>
-                            </div>
-                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                                 data-bs-parent="#accordionExample1">
-                                <div class="card-body-chat">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div id="checkBoxes1">
-                                                <div class="form-custom">
-                                                    <input type="text" class="form-control" id="member_search1"
-                                                           placeholder="Search Product">
-                                                    <span><img src="{% static 'assets/img/icons/search.svg' %}"
-                                                               alt="img"></span>
-                                                </div>
+                                        <td class="d-flex align-items-center">
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                            {% if stock.product.quentity > 0 %}
+                                                <a href="{% url 'addProductInStock' stock.id %}"
+                                                   class="btn btn-greys bg-success-light"
+                                                   title="Add the product brought from the store">
+                                                    <i class="fa fa-plus-circle"></i> From Store
+                                                </a>
+                                            {% else %}
+                                                <a class="btn btn-greys bg-danger-light"
+                                                   title="This Product not available in the store">
+                                                    <i class="fa fa-multiply"></i> No product
+                                                </a>
+                                            {% endif %}
+                                        </td>
+
+                                        <td>
+                                            <a href="{% url 'addNewProductInStock' stock.id %}"
+                                               class="btn btn-greys bg-success-light">
+                                                <i class="fa fa-plus-circle"></i> To Stock
+                                            </a>
+                                        </td>
+
+
+                                        <td>
+                                            {% if stock.quantity > 0 %}
+                                                <a href="{% url 'subtractProductFromStockToStore' stock.id %}"
+                                                   class="btn btn-greys bg-danger-light">
+                                                    <i class="fa fa-minus-circle"></i> To Store
+                                                </a>
+
+                                            {% else %}
+                                                <a class="btn btn-greys bg-danger-light"
+                                                   title="This Product not available in the Stock">
+                                                    <i class="fa fa-multiply"></i> No product
+                                                </a>
+                                            {% endif %}
+                                        </td>
+
+                                    </tr>
+
+                                    {% endfor %}
+
+
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-
-
-                        <div class="accordion" id="accordionMain4">
-                            <div class="card-header-new" id="headingFour">
-                                <h6 class="filter-title">
-                                    <a href="javascript:void(0);" class="w-100 collapsed" data-bs-toggle="collapse"
-                                       data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-                                        Product Code
-                                        <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
-                                    </a>
-                                </h6>
-                            </div>
-                            <div id="collapseFour" class="collapse" aria-labelledby="headingFour"
-                                 data-bs-parent="#accordionExample4">
-                                <div class="card-body-chat">
-                                    <div id="checkBoxes3">
-                                        <div class="selectBox-cont">
-                                            <div class="form-custom">
-                                                <input type="text" class="form-control" id="member_search2"
-                                                       placeholder="Search Invoice">
-                                                <span><img src="{% static 'assets/img/icons/search.svg' %}"
-                                                           alt="img"></span>
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="filter-buttons">
-                            <button type="submit"
-                                    class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
-                                Apply
-                            </button>
-                            <button type="submit"
-                                    class="d-inline-flex align-items-center justify-content-center btn w-100 btn-secondary">
-                                Reset
-                            </button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-
-
-        <form action="" method="post">
-            {% csrf_token %}
-            <div class="modal custom-modal fade" id="stock_in" role="dialog">
-                <div class="modal-dialog modal-dialog-centered modal-md">
-                    <div class="modal-content">
-                        <div class="modal-header border-0 pb-0">
-                            <div class="form-header modal-header-title text-start mb-0">
-                                <h4 class="mb-0">Add Product To Stock</h4>
-                            </div>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <span class="align-center" aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-
-                        <div class="modal-body">
-                            <div class="row">
-
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="form-group mb-0">
-                                        <label>Users</label>
-                                        <select class="select">
-                                            {% for user in users %}
-                                                <option>{{ user.username }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-
-
-                            <div class="col-lg-6 col-md-12">
-                                    <div class="form-group mb-0">
-                                        <label>Product</label>
-                                        <select class="select">
-                                            {% for product in products %}
-                                                <option value="{{ product.id }}">{{ product.name }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="form-group">
-                                        <label>Quantity</label>
-                                        <input type="number" name="quentity" class="form-control" placeholder="0">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group mb-0">
-                                        <label>Notes</label>
-                                        <textarea name="description" rows="3" cols="3" class="form-control"
-                                                  placeholder="Enter Notes"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <a href="#" data-bs-dismiss="modal" class="btn btn-primary paid-cancel-btn me-2">Cancel</a>
-                            {#                        <a href="#" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Add Quantity</a>#}
-                            <button type="submit" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Add
-                                Quantity
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-
-
-        <form action="" method="post">
-            {% csrf_token %}
-            <div class="modal custom-modal fade" id="stock_out" role="dialog">
-                <div class="modal-dialog modal-dialog-centered modal-md">
-                    <div class="modal-content">
-                        <div class="modal-header border-0 pb-0">
-                            <div class="form-header modal-header-title text-start mb-0">
-                                <h4 class="mb-0">Bring Products From Stock</h4>
-                            </div>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <span class="align-center" aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="form-group mb-0">
-                                        <label>Units</label>
-                                        <select class="select">
-                                            {% for product in products %}
-                                                <option>{{ product.type }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="form-group mb-0">
-                                        <label>Users</label>
-                                        <select class="select">
-                                            {% for user in users %}
-                                                <option>{{ user.username }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6 col-md-12">
-                                    <div class="form-group">
-                                        <label>Quantity</label>
-                                        <input type="number" name="quentity" class="form-control" placeholder="0">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group mb-0">
-                                        <label>Notes</label>
-                                        <textarea name="description" rows="3" cols="3" class="form-control"
-                                                  placeholder="Enter Notes"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <a href="#" data-bs-dismiss="modal" class="btn btn-primary paid-cancel-btn me-2">Cancel</a>
-                            {#                        <a href="#" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Remove#}
-                            {#                            Quantity</a>#}
-                            <button type="submit" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">
-                                Remove
-                                Quantity
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
 
     </div>
-    </body>
+</div>
+
+
+<div class="toggle-sidebar">
+    <div class="sidebar-layout-filter">
+        <div class="sidebar-header">
+            <h5>Filter</h5>
+            <a href="#" class="sidebar-closes"><i class="fa-regular fa-circle-xmark"></i></a>
+        </div>
+        <div class="sidebar-body">
+            <form action="#" autocomplete="off">
+
+                <div class="accordion" id="accordionMain1">
+                    <div class="card-header-new" id="headingOne">
+                        <h6 class="filter-title">
+                            <a href="javascript:void(0);" class="w-100" data-bs-toggle="collapse"
+                               data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Product Name
+                                <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
+                            </a>
+                        </h6>
+                    </div>
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                         data-bs-parent="#accordionExample1">
+                        <div class="card-body-chat">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="checkBoxes1">
+                                        <div class="form-custom">
+                                            <input type="text" class="form-control" id="member_search1"
+                                                   placeholder="Search Product">
+                                            <span><img src="{% static 'assets/img/icons/search.svg' %}"
+                                                       alt="img"></span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="accordion" id="accordionMain4">
+                    <div class="card-header-new" id="headingFour">
+                        <h6 class="filter-title">
+                            <a href="javascript:void(0);" class="w-100 collapsed" data-bs-toggle="collapse"
+                               data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                Product Code
+                                <span class="float-end"><i class="fa-solid fa-chevron-down"></i></span>
+                            </a>
+                        </h6>
+                    </div>
+                    <div id="collapseFour" class="collapse" aria-labelledby="headingFour"
+                         data-bs-parent="#accordionExample4">
+                        <div class="card-body-chat">
+                            <div id="checkBoxes3">
+                                <div class="selectBox-cont">
+                                    <div class="form-custom">
+                                        <input type="text" class="form-control" id="member_search2"
+                                               placeholder="Search Invoice">
+                                        <span><img src="{% static 'assets/img/icons/search.svg' %}"
+                                                   alt="img"></span>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="filter-buttons">
+                    <button type="submit"
+                            class="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary">
+                        Apply
+                    </button>
+                    <button type="submit"
+                            class="d-inline-flex align-items-center justify-content-center btn w-100 btn-secondary">
+                        Reset
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="modal custom-modal fade" id="stock_in" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <div class="form-header modal-header-title text-start mb-0">
+                        <h4 class="mb-0">Add Product To Stock</h4>
+                    </div>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span class="align-center" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group mb-0">
+                                <label>Users</label>
+                                <select class="select">
+                                    {% for user in users %}
+                                        <option>{{ user.username }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group mb-0">
+                                <label>Product</label>
+                                <select class="select">
+                                    {% for product in products %}
+                                        <option value="{{ product.id }}">{{ product.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label>Quantity</label>
+                                <input type="number" name="quentity" class="form-control" placeholder="0">
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group mb-0">
+                                <label>Notes</label>
+                                <textarea name="description" rows="3" cols="3" class="form-control"
+                                          placeholder="Enter Notes"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" data-bs-dismiss="modal" class="btn btn-primary paid-cancel-btn me-2">Cancel</a>
+                    {#                        <a href="#" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Add Quantity</a>#}
+                    <button type="submit" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Add
+                        Quantity
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="modal custom-modal fade" id="stock_out" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <div class="form-header modal-header-title text-start mb-0">
+                        <h4 class="mb-0">Bring Products From Stock</h4>
+                    </div>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span class="align-center" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group mb-0">
+                                <label>Units</label>
+                                <select class="select">
+                                    {% for product in products %}
+                                        <option>{{ product.type }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group mb-0">
+                                <label>Users</label>
+                                <select class="select">
+                                    {% for user in users %}
+                                        <option>{{ user.username }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label>Quantity</label>
+                                <input type="number" name="quentity" class="form-control" placeholder="0">
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group mb-0">
+                                <label>Notes</label>
+                                <textarea name="description" rows="3" cols="3" class="form-control"
+                                          placeholder="Enter Notes"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" data-bs-dismiss="modal" class="btn btn-primary paid-cancel-btn me-2">Cancel</a>
+                    {#                        <a href="#" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Remove#}
+                    {#                            Quantity</a>#}
+                    <button type="submit" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">
+                        Remove
+                        Quantity
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+</div>
+</body>
 
 
 {% endblock %}

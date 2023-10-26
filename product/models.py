@@ -1,15 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-
-
-
-
-
-
-
-
-
+from customer.models import Customer
 
 
 class UnitType(models.Model):
@@ -62,6 +54,15 @@ class Product(models.Model):
     description                 = models.TextField()
 
 
+
+    @property
+    def get_stock_items(self):
+        if self.productinstock_set:
+            items = self.productinstock_set.all()
+            total = sum([item.quantity for item in items])
+        return total
+
+
     def __str__(self):
         return f"{self.name}"
 
@@ -86,15 +87,14 @@ class Stocks(models.Model):
 
 class ProductInStock(models.Model):
     stocks = models.ForeignKey(Stocks, blank=True, null=True, on_delete=models.CASCADE)
-    quentity = models.IntegerField(blank=False, null=False)
+    quantity = models.IntegerField(blank=False, null=False)
     datetime = models.DateTimeField(auto_now=True)
     description = models.TextField(null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, blank=True, null=True, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, unique=True, blank=False, null=False)
 
 
     class Meta:
-        verbose_name = 'ProductsInStock'
         ordering = ['-datetime']
 
 
@@ -105,6 +105,7 @@ class ProductInStock(models.Model):
 
 class Order(models.Model):
     staff = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
     order_quantity = models.PositiveIntegerField(blank=True, null=True)
     datetime = models.DateTimeField(auto_now_add=True)

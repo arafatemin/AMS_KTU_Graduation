@@ -40,9 +40,9 @@ class ProductAdmin(admin.ModelAdmin):
 
 class ProductInStockAdmin(admin.ModelAdmin):
     model = ProductInStock
-    list_display = ['quentity', 'user', 'product', 'datetime', 'stocks']
+    list_display = ['product','quantity','user', 'datetime', 'stocks']
     list_display_links = ['product']
-    list_editable = ['quentity']
+    list_editable = ['quantity']
     list_per_page = 10
 
 

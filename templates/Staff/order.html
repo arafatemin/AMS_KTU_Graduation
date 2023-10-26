@@ -10,6 +10,15 @@
         <div class="page-wrapper">
             <div class="content container-fluid">
 
+
+                {% for message in messages %}
+                    {% if message %}
+                        <div class="alert alert-{{ message.tags }} text-center">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
                 <div class="page-header">
                     <div class="content-page-header">
                         <h5>Purchase Orders</h5>
@@ -42,42 +51,35 @@
                                         <thead class="thead-light">
                                         <tr>
                                             <th>Order By</th>
+                                            <th>Customer</th>
                                             <th>Product</th>
-                                            <th>Category</th>
                                             <th>Quantity</th>
-                                            <th>Date</th>
+                                            <th>Category</th>
+                                            <th>Date Time</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         {% for order in orders %}
                                             <tr>
+
                                                 <td>
-                                                    <h2 class="table-avatar">
-                                                        {% if order.staff.profile.image %}
-                                                            <a href="{% url 'staff' %}"
-                                                               class="avatar avatar-sm me-2"><img
-                                                                    class="avatar-img rounded-circle"
-                                                                    src="{{ order.staff.profile.image.url }}"
-                                                                    alt="User Image"></a>
+                                                    <a href="{% url 'staff' %}"
+                                                       class="avatar avatar-sm me-2">
+                                                        <img class="avatar-img rounded-circle"
+                                                             src="{{ order.staff.profile.image.url }}"
+                                                             alt="User Image"><span
+                                                            style="margin-left: 0.5rem; color: #8a8a8a">{{ order.staff.username }}</span>
+                                                    </a>
 
-                                                        {% else %}
-                                                            <a href="{% url 'staff' %}"
-                                                               class="avatar avatar-sm me-2"><img
-                                                                    class="avatar-img rounded-circle"
-                                                                    src="{% static 'assets/img/profiles/avatar-14.jpg' %}"
-                                                                    alt="User Image"></a>
 
-                                                        {% endif %}
-                                                        <a href="{% url 'staff' %}">{{ order.staff.username }}
-                                                            <span>{{ order.staff.email }}</span></a>
-                                                    </h2>
                                                 </td>
+
+                                                <td>{{ order.customer.name }}</td>
                                                 <td>
                                                     <a href="{% url 'productListView' %}">{{ order.product.name }}</a>
                                                 </td>
-                                                <td>{{ order.product.category.title }}</td>
-
                                                 <td>{{ order.order_quantity }}</td>
+                                                <td>{{ order.product.category.title }}</td>
 
                                                 <td>{{ order.datetime|date:"Y-m-d H:m:s" }}</td>
                                                 </td>

@@ -14,10 +14,12 @@ from .forms import *
 def product_list_view(request):
     products = Product.objects.all()
     profile = Profile.objects.get(staff__username=request.user)
+    stocks = Stocks.objects.all()
     context = {
         "products": products,
         "stocks_name": Stocks.objects.all(),
-        'profile': profile
+        'profile': profile,
+        'stocks': stocks,
 
     }
     return render(request, "product/productListView.html", context)
@@ -209,29 +211,16 @@ def product_tax_delete_view(request, pk):
 
 
 @login_required
-def product_stock_view(request):
-    stocks = ProductInStock.objects.all()
-    products = Product.objects.all()
-    users = User.objects.all()
-    stocks_name = Stocks.objects.all()
-
-    if request.method == 'POST':
-        quentity = request.POST.get("quentity")
-        description = request.POST.get("description")
-        product = Product.objects.filter(name=request.POST.get("product"))
-        for p in product:
-            print(p.name)
-        user = request.POST.get("user")
-        print(user)
-        newStock = ProductInStock(user_id=request.user.id, quentity=quentity, description=description)
-        newStock.save()
-        return HttpResponseRedirect('productInStock')
+def stock_view(request):
+    stock = request.GET.get("stock")
+    if stock == None:
+        stocks = ProductInStock.objects.all()
+    else:
+        stocks = ProductInStock.objects.filter(stocks__name=stock)
 
     context = {
         "stocks": stocks,
-        "users": users,
-        "products": products,
-        "stocks_name": stocks_name,
+        "stock": stock,
     }
     return render(request, "Stoke/stoke.html", context)
 
@@ -239,18 +228,190 @@ def product_stock_view(request):
 @login_required
 def stock_create_view(request):
     if request.method == 'POST':
-        user = request.POST.get("user")
-        quentity = request.POST.get("quentity")
-        description = request.POST.get("description")
-        newStock = ProductInStock(user=user, quentity=quentity, description=description)
-        newStock.save()
-        # form = StockFrom(request.POST)
-        # if form.is_valid():
-        #     form.save()
-        return HttpResponseRedirect('productInStock')
+        form = StockFrom(request.POST)
+        if form.is_valid():
+            form.save()
+            stock_name = form.cleaned_data.get('name')
+            messages.success(request, f"{stock_name} stock name created successfully")
+            return HttpResponseRedirect("../productInStock?stock=" + stock_name)
     else:
         form = StockFrom()
-    return render(request, "Stoke/stoke.html", {"form": form})
+    return render(request, "Stoke/create_stock.html", {"form": form})
+
+
+def create_product_in_stock_view(request):
+    stocks_name = request.POST.get("stocks")
+    stock = Stocks.objects.filter(id=stocks_name)
+    user = request.POST.get("user")
+
+    if request.method == 'POST':
+        form = CreateNewProdcutInStockFrom(request.POST)
+        if form.is_valid():
+            form.instance.user = User.objects.get(id=user)
+            form.save()
+            product_name = form.cleaned_data.get('product')
+            messages.success(request, f" the {product_name} added successfully")
+            return HttpResponseRedirect("../productInStock?stock=" + stock[0].name)
+    else:
+        form = CreateNewProdcutInStockFrom()
+    return render(request, "Stoke/create_product_in_stock.html", {"form": form})
+
+
+def add_new_product_in_stock_view(request, pk):
+    stock = ProductInStock.objects.get(id=pk)
+    if request.method == "POST":
+        quantity = request.POST.get("quantity")
+        product_name = request.POST.get("product")
+        if int(quantity) > 0:
+            stock.quantity += int(quantity)
+            stock.user = User.objects.get(username=request.user.username)
+            stock.save()
+            messages.success(request, f"{quantity} of the {product_name} added successfully")
+            return redirect("../productInStock?stock=" + stock.stocks.name)
+        else:
+            messages.warning(request, f"{quantity} Quantity must bigger than: 0 :(")
+            return redirect("../productInStock?stock=" + stock.stocks.name)
+    context = {
+        'stock': stock
+    }
+    return render(request, "Stoke/add_new_product_in_stock.html", context)
+
+
+def add_product_from_store_to_stock_view(request, pk):
+    stock = ProductInStock.objects.get(id=pk)
+    if request.method == "POST":
+        quantity = request.POST.get("quantity")
+        user_username = request.POST.get("user")
+
+        print(user_username)
+        product_name = request.POST.get("product")
+        if stock.product.quentity > 0 and stock.product.quentity >= int(quantity) and int(quantity) > 0:
+            stock.quantity += int(quantity)
+            stock.product.quentity -= int(quantity)
+            stock.user = User.objects.get(username=request.user.username)
+            stock.save()
+            stock.product.save()
+            messages.success(request, f"{quantity} of the {product_name} added successfully")
+        else:
+            messages.warning(request, f"{quantity}  of the {product_name} product is not available in the store:(")
+            return redirect("productListView")
+
+        return redirect("../productInStock?stock=" + stock.stocks.name)
+    context = {
+        'stock': stock
+    }
+    return render(request, "Stoke/add_from_product_in_stock.html", context)
+
+
+def subtract_product_from_stock_to_store_view(request, pk):
+    stock = ProductInStock.objects.get(id=pk)
+    if request.method == "POST":
+        product_name = request.POST.get("product")
+        quantity = request.POST.get("quantity")
+        user_username = request.POST.get("user")
+        print(user_username)
+
+        if stock.quantity >= int(quantity) and int(quantity) > 0:
+            stock.quantity -= int(quantity)
+            stock.product.quentity += int(quantity)
+            stock.user = User.objects.get(username=request.user.username)
+            stock.save()
+            stock.product.save()
+            messages.success(request, f"{quantity} of the {product_name} subtracted successfully")
+            return HttpResponseRedirect("../productInStock?stock=" + stock.stocks.name)
+        else:
+            messages.warning(request, f"{quantity}  of the {product_name} product is not available in the Stock:(")
+            return redirect("../productInStock?stock=" + stock.stocks.name)
+    context = {
+        'stock': stock
+    }
+    return render(request, "Stoke/subtract_product_from_stock_to_store.html", context)
+
+
+@login_required
+def order_view(request):
+    orders = Order.objects.all()
+    context = {
+        "orders": orders,
+    }
+    return render(request, "Staff/order.html", context)
+
+
+# @login_required
+# def order_Create_view(request):
+#     o_product_id = request.POST.get("product")
+#     p_product = Product.objects.all()
+#     quantity = request.POST.get("order_quantity")
+#     customer = request.POST.get("customer")
+#
+#     if request.method == 'POST':
+#         form = OrderFrom(request.POST)
+#         if form.is_valid():
+#             for p in p_product:
+#                 if p.id == int(o_product_id):
+#                     if p.quentity >= int(quantity):
+#
+#                         newOrder = Order(staff=request.user, product=p, order_quantity=quantity, customer=customer)
+#                         newOrder.save()
+#                         p.quentity -= int(quantity)
+#                         p.save()
+#                         messages.success(request, f'Order created successfully')
+#                         return HttpResponseRedirect('order')
+#                     else:
+#                         order_quantity = form.cleaned_data.get('order_quantity')
+#                         messages.warning(request, f'Product {order_quantity} not enough quantity :(')
+#                         return HttpResponseRedirect('order')
+#
+#     else:
+#         form = OrderFrom()
+#     return render(request, "Staff/orderCreate.html", {"form": form})
+
+
+def order_Create_view(request):
+    # user = Order.objects.get(staff__username=request.user.username)
+    # print(user)
+    if request.method == 'POST':
+        # print(user.staff.username)
+        form = OrderFrom(request.POST)
+        if form.is_valid():
+            if form.instance.product.quentity >= form.instance.order_quantity and form.instance.order_quantity > 0 and form.instance.product.quentity > 0:
+                form.instance.product.quentity -= form.instance.order_quantity
+                form.instance.product.save()
+            else:
+                messages.warning(request, f'Product {form.instance.order_quantity} not enough quantity in store :( you have only {form.instance.product.quentity} product/s in store')
+                return HttpResponseRedirect('orderCreate')
+
+
+
+            newOrder = Order(staff=request.user, product=form.instance.product, order_quantity=form.instance.order_quantity, customer=form.instance.customer)
+            product_name = form.cleaned_data.get('product')
+            newOrder.save()
+            messages.success(request, f'In order {form.instance.order_quantity} {product_name} created successfully.')
+            return HttpResponseRedirect('order')
+
+    else:
+        form = OrderFrom()
+    return render(request, "Staff/orderCreate.html", {"form": form})
+
+"""
+
+def create_product_in_stock_view(request):
+    stocks_name = request.POST.get("stocks")
+    stock = Stocks.objects.filter(id=stocks_name)
+    user = request.POST.get("user")
+
+    if request.method == 'POST':
+        form = CreateNewProdcutInStockFrom(request.POST)
+        if form.is_valid():
+            form.instance.user = User.objects.get(id=user)
+            form.save()
+            product_name = form.cleaned_data.get('product')
+            messages.success(request, f" the {product_name} added successfully")
+            return HttpResponseRedirect("../productInStock?stock=" + stock[0].name)
+    else:
+        form = CreateNewProdcutInStockFrom()
+    return render(request, "Stoke/create_product_in_stock.html", {"form": form})
+    """
 
 
 @login_required
@@ -302,26 +463,3 @@ def staff_delete_view(request, pk):
         user.delete()
         return redirect("staff")
     return render(request, "staff/staffDelete.html", {"user": user})
-
-
-@login_required
-def order_view(request):
-    orders = Order.objects.all()
-    context = {
-        "orders": orders,
-    }
-    return render(request, "Staff/order.html", context)
-
-
-@login_required
-def order_Create_view(request):
-    if request.method == 'POST':
-        form = OrderFrom(request.POST)
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.staff = request.user
-            instance.save()
-            return HttpResponseRedirect('order')
-    else:
-        form = OrderFrom()
-    return render(request, "Staff/orderCreate.html", {"form": form})

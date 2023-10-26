@@ -25,6 +25,9 @@ class TaxFrom(forms.ModelForm):
         model = Tax
         fields = '__all__'
 
+
+
+
 class StockFrom(forms.ModelForm):
     class Meta:
         model = Stocks
@@ -32,7 +35,19 @@ class StockFrom(forms.ModelForm):
 
 
 
+class ProdcutInStockFrom(forms.ModelForm):
+    class Meta:
+        model = ProductInStock
+        fields = ['user']
+
+class CreateNewProdcutInStockFrom(forms.ModelForm):
+    class Meta:
+        model = ProductInStock
+        fields = '__all__'
+
+
+
 class OrderFrom(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ['product', 'order_quantity']
+        fields = ['product', 'customer', 'order_quantity']

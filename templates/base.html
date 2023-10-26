@@ -127,7 +127,6 @@
 
 
                 <ul>
-                    <li class="menu-title"><span>Inventory</span></li>
                     <li class="submenu">
                         <a href="#"><i class="fe fe-package"></i> <span> Products</span> <span
                                 class="menu-arrow"></span></a>
@@ -139,46 +138,40 @@
                         </ul>
                     </li>
 
-                    <li class="submenu">
 
+                    <li class="submenu">
                         <a href="#"><i class="fe fe-shopping-bag"></i> <span>Stock</span> <span
                                 class="menu-arrow"></span></a>
                         <ul>
+                            <li></li>
                             {% for stock in stocks_name %}
-                                <li><a href="{% url 'productInStock' %}">{{ stock.name }}</a></li>
+                                <li><a href="{% url 'productInStock' %}?stock={{ stock.name }}">{{ stock.name }}</a>
+                                </li>
                             {% endfor %}
                         </ul>
-
                     </li>
 
 
                     <li class="submenu">
-
                         <a href="#"><i class="fas fa-money-bill"></i> <span>Finance</span> <span
                                 class="menu-arrow"></span></a>
                         <ul>
-
                             <li><a href="{% url 'income' %}">Income</a></li>
                             <li><a href="{% url 'outcome' %}">Outcome</a></li>
                             <li><a href="{% url 'income_category' %}">Income Category</a></li>
                             <li><a href="{% url 'outcome_category' %}">Outcome Category</a></li>
-
                         </ul>
-
                     </li>
 
+                </ul>
 
+
+
+                <ul>
+                    <li class="menu-title"><span>Sales</span></li>
                     <li>
                         <a href="{% url 'order' %}"><i class="badge rounded-pill" style="margin-top: 20px"></i> <span>Order</span></a>
                     </li>
-
-                    {% if user.is_superuser %}
-                        <li>
-                            <a href="{% url 'staff' %}"><i class="badge rounded-pill" style="margin-top: 20px"></i>
-                                <span>Staff</span></a>
-                        </li>
-                    {% endif %}
-
 
                 </ul>
 
@@ -186,14 +179,16 @@
                 <ul>
                     <li class="menu-title"><span>Customers</span></li>
                     <li>
-                        <a href="customers.html"><i class="fas fa-user"></i> <span>Customers</span></a>
+                        <a href="{% url 'customerView' %}"><i class="fas fa-user"></i> <span>Customers</span></a>
                     </li>
-                    <li>
-                        <a href="customer-details.html"><i class="fe fe-file"></i> <span>Customer Details</span></a>
-                    </li>
-                    <li>
-                        <a href="vendors.html"><i class="fe fe-user"></i> <span>Vendors</span></a>
-                    </li>
+
+
+                    {% if user.is_superuser %}
+                        <li>
+                            <a href="{% url 'staff' %}"><i class="fe fe-user"></i>
+                                <span>Staff</span></a>
+                        </li>
+                    {% endif %}
                 </ul>
 
 

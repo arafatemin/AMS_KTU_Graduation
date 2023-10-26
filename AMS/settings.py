@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'finance',
     'crispy_forms',
     'crispy_bootstrap4',
+    'customer',
+    'invoice',
+
 
 
 ]
