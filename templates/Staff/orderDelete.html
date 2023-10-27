@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+    <div class="main-wrapper">
+
+
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4  class="title text-end"><a href="{% url 'order' %}"><input type="submit" class="btn btn-info" value="Cancel"></a></h4>
+                                <hr>
+                                <div class="alert alert-danger"><h3>Are you sure Delete <span style="color: slateblue">{{ order.product.name }} of {{ order.customer.name }}</span>?</h3></div>
+                            </div>
+
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                {{ form }}
+
+                                <input type="submit" class="btn btn-outline-danger d-lg-block" style="width: 100%" value="Delete">
+
+                            </form>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+{% endblock %}

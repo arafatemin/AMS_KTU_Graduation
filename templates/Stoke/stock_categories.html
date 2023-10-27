@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+    <body>
+
+    <div class="main-wrapper">
+
+
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+
+
+                <div class="row">
+                    {% for stock in stocks %}
+
+                        <div class="col-xl-2 col-lg-4 col-sm-6 col-12 d-flex">
+
+                            <div class="card inovices-card">
+                                <a href="{% url 'productInStock' %}?stock={{ stock.name }}">
+                                    <div class="card-body">
+                                        <div class="dash-widget-header">
+                                            <img style="width: 50px; height: 65px;"
+                                                 src="{% static 'assets/img/icons/depo2.png' %}" alt>
+                                            </span>
+                                            <div class="dash-count">
+                                                <div class="dash-counts">
+                                                    <p style="margin-top: 1rem">{{ stock.name|title }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                    <div class="col-xl-2 col-lg-4 col-sm-6 col-12 d-flex">
+
+                            <div class="card inovices-card">
+                                <a href="{% url 'stockCreate' %}">
+
+
+                                <div class="card-body">
+                                    <div class="dash-widget-header">
+                                        <div class="dash-count">
+                                            <div class="dash-counts">
+                                                <div class="dash-count">
+                                                    </span>
+                                                    <div class="dash-count">
+                                                        <div class="dash-counts">
+                                                            <p style="margin-top: 2rem"><i
+                                                                    class="fa fa-plus-circle"></i><span
+                                                                    class="text-center"> Stock</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+    </a>
+                            </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class=" card-table">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-center table-hover datatable">
+                                        <thead class="thead-light">
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Quantity</th>
+                                            <th>User Name</th>
+                                            <th>Description</th>
+                                            <th>Date Time</th>
+                                            <th>Add From Store</th>
+                                            <th>New Product</th>
+                                            <th>Subtract</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for stock in productInStock %}
+                                            <tr>
+                                                {% if stock.product %}
+                                                    <td>{{ stock.product.name }}</td>
+                                                {% else %}
+                                                    <td>{{ stock.product_name }}</td>
+                                                {% endif %}
+                                                <td>{{ stock.quantity }}</td>
+                                                <td>{{ stock.user.username }}</td>
+                                                <td>{{ stock.description|truncatechars:10 }}</td>
+                                                <td>{{ stock.datetime|date:'Y-m-d H:m:s' }}</td>
+
+                                                <td class="d-flex align-items-center">
+
+                                                    {% if stock.product.quentity > 0 %}
+                                                        <a href="{% url 'addProductInStock' stock.id %}"
+                                                           class="btn btn-greys bg-success-light"
+                                                           title="Add the product brought from the store">
+                                                            <i class="fa fa-plus-circle"></i> From Store
+                                                        </a>
+                                                    {% else %}
+                                                        <a class="btn btn-greys bg-danger-light"
+                                                           title="This Product not available in the store">
+                                                            <i class="fa fa-multiply"></i> No product
+                                                        </a>
+                                                    {% endif %}
+                                                </td>
+
+                                                <td>
+                                                    <a href="{% url 'addNewProductInStock' stock.id %}"
+                                                       class="btn btn-greys bg-success-light">
+                                                        <i class="fa fa-plus-circle"></i> To Stock
+                                                    </a>
+                                                </td>
+
+
+                                                <td>
+                                                    {% if stock.quantity > 0 %}
+                                                        <a href="{% url 'subtractProductFromStockToStore' stock.id %}"
+                                                           class="btn btn-greys bg-danger-light">
+                                                            <i class="fa fa-minus-circle"></i> To Store
+                                                        </a>
+
+                                                    {% else %}
+                                                        <a class="btn btn-greys bg-danger-light"
+                                                           title="This Product not available in the Stock">
+                                                            <i class="fa fa-multiply"></i> No product
+                                                        </a>
+                                                    {% endif %}
+                                                </td>
+
+
+                                                <td class="d-flex align-items-center">
+                                                    <div class="dropdown dropdown-action">
+                                                        <a href="#" class=" btn-action-icon " data-bs-toggle="dropdown"
+                                                           aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
+                                                        <div class="dropdown-menu dropdown-menu-end">
+                                                            <ul>
+                                                                <li>
+                                                                    <a class="dropdown-item"
+                                                                       href="{% url 'stockUpdate' stock.id %}"><i
+                                                                            class="far fa-edit me-2"></i>Update</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item"
+                                                                       href="{% url 'stockDelete' stock.id %}"><i
+                                                                            class="far fa-trash-alt me-2"></i>Delete</a>
+                                                                </li>
+
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+
+                                        {% endfor %}
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    </body>
+
+    <!-- Mirrored from kanakku.dreamguystech.com/html/template/customer-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Oct 2023 15:22:03 GMT -->
+    </html>
+
+{% endblock %}

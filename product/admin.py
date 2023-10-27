@@ -58,7 +58,17 @@ admin.site.register(Tax, TaxAdmin)
 admin.site.register(Product, ProductAdmin)
 
 
+class InvoiceAdmin(admin.ModelAdmin):
+    model = Invoice
+    list_display = ['customer', 'user', 'datetime']
+    list_display_links = ['customer']
+    list_per_page = 10
 
 admin.site.register(ProductInStock, ProductInStockAdmin)
 admin.site.register(Stocks)
 admin.site.register(Order, OrderAdmin)
+admin.site.register(Invoice, InvoiceAdmin)
+
+
+
+

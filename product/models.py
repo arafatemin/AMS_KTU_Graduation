@@ -60,7 +60,7 @@ class Product(models.Model):
         if self.productinstock_set:
             items = self.productinstock_set.all()
             total = sum([item.quantity for item in items])
-        return total
+            return total
 
 
     def __str__(self):
@@ -103,12 +103,28 @@ class ProductInStock(models.Model):
 
 
 
+
+class Invoice(models.Model):
+    customer                    = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True,blank=True)
+    user                        = models.ForeignKey(User, on_delete=models.CASCADE, null=True,blank=True)
+    datetime                    = models.DateTimeField(auto_now=True)
+    tax                         = models.ForeignKey(Tax, on_delete=models.CASCADE, blank=True, null=True)
+    description                 = models.TextField(null=True,blank=True)
+
+    def __str__(self):
+        return f"{self.datetime.strftime('%Y-%m-%d %H:%M:%S')} For {self.customer}"
+
+
+
+
+
 class Order(models.Model):
-    staff = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
-    order_quantity = models.PositiveIntegerField(blank=True, null=True)
-    datetime = models.DateTimeField(auto_now_add=True)
+    staff                   = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    customer                = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True)
+    product                 = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
+    invoice                 = models.ForeignKey(Invoice, on_delete=models.CASCADE, blank=True, null=True)
+    order_quantity          = models.PositiveIntegerField(blank=True, null=True)
+    datetime                = models.DateTimeField(auto_now_add=True)
 
 
     class Meta:
@@ -116,12 +132,15 @@ class Order(models.Model):
         ordering = ['-datetime']
 
 
+    @property
+    def get_total(self):
+        total = self.product.sell_price * self.order_quantity
+        return total
 
 
 
 
-
-
-
-
-
+# class ReturnedProduct(models.Model):
+#     sold_product    = models.ForeignKey(Order, on_delete=models.CASCADE)
+#     datetime        = models.DateTimeField(auto_now=True)
+#     note            = models.TextField(null=True,blank=True)
