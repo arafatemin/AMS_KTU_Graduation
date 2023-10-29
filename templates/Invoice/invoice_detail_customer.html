@@ -144,43 +144,157 @@
                                                 <div class="terms-conditions">
                                                     <div class="row align-items-center justify-content-between">
                                                         <div class="col-lg-6 col-md-6">
-                                                            <div class="invoice-terms align-center">
-                                                                <span class="invoice-terms-icon bg-white-smoke me-3">
-                                                                <i class="fe fe-file-text"></i>
-                                                                </span>
-                                                                <div class="invocie-note">
-                                                                    <h6>Terms & Conditions</h6>
-                                                                    <p class="mb-0">Authoritatively envisioneer business
-                                                                        action items through parallel sources.</p>
+
+
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <h4 class="header-title mb-4">Payment Method</h4>
+                                                                    <ul class="nav nav-tabs" role="tablist">
+                                                                        <li class="nav-item" role="presentation">
+                                                                            <a href="#home" data-bs-toggle="tab"
+                                                                               aria-expanded="false"
+                                                                               class="nav-link active"
+                                                                               aria-selected="false" role="tab"
+                                                                            >
+                                                                                Cash
+                                                                            </a>
+                                                                        </li>
+                                                                        <li class="nav-item" role="presentation">
+                                                                            <a href="#profile" data-bs-toggle="tab"
+                                                                               aria-expanded="true"
+                                                                               class="nav-link"
+                                                                               aria-selected="true" role="tab"
+                                                                               tabindex="-1">
+                                                                                Bank
+                                                                            </a>
+                                                                        </li>
+
+                                                                    </ul>
+                                                                    <div class="tab-content">
+                                                                        <div class="active tab-pane" id="home"
+                                                                             role="tabpanel">
+                                                                            <div class="card">
+                                                                                <div class="card-header">
+                                                                                    <h5 class="card-title">Cash
+                                                                                        Method</h5>
+                                                                                </div>
+                                                                                <br>
+                                                                                <div class="card-body">
+                                                                                    <form action="#">
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-form-label col-lg-2">Amount</label>
+                                                                                            <div class="col-lg-10">
+                                                                                                <div class="input-group">
+                                                                                                    <span class="input-group-text">$</span>
+                                                                                                    <input type="text"
+                                                                                                           class="form-control">
+                                                                                                    <button type="submit"
+                                                                                                            class="btn btn-success">
+                                                                                                        Send
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="tab-pane show"
+                                                                             id="profile" role="tabpanel">
+                                                                            <div class="card">
+                                                                                <div class="card-header">
+                                                                                    <h5 class="card-title">Bank
+                                                                                        Method</h5>
+                                                                                </div>
+                                                                                <br>
+                                                                                <div class="card-body">
+                                                                                    <form action="#">
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-form-label col-lg-2">Bank</label>
+                                                                                            <div class="col-lg-10">
+                                                                                                <div class="input-group">
+                                                                                                    <span class="input-group-text">B</span>
+                                                                                                    <select style="width: 90%; height: 40px"
+                                                                                                            name="cars"
+                                                                                                            id="cars">
+                                                                                                        <option value="volvo">
+                                                                                                            Ziraat
+                                                                                                            Bank
+                                                                                                        </option>
+                                                                                                        <option value="saab">
+                                                                                                            Ak Bank
+                                                                                                        </option>
+                                                                                                        <option value="opel">
+                                                                                                            KuveytTurk
+                                                                                                            Bank
+                                                                                                        </option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="form-group row">
+                                                                                            <label class="col-form-label col-lg-2">Amount</label>
+                                                                                            <div class="col-lg-10">
+                                                                                                <div class="input-group">
+                                                                                                    <span class="input-group-text">$</span>
+                                                                                                    <input type="text"
+                                                                                                           class="form-control">
+                                                                                                    <button type="submit"
+                                                                                                            class="btn btn-success">
+                                                                                                        Send
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="invoice-terms align-center">
-                                                                <span class="invoice-terms-icon bg-white-smoke me-3">
-                                                                <i class="fe fe-file-minus"></i>
-                                                                </span>
-                                                                <div class="invocie-note">
-                                                                    <h6>Note</h6>
-                                                                    <p class="mb-0">This is computer generated receipt
-                                                                        and does not require physical signature.</p>
-                                                                </div>
-                                                            </div>
+
                                                         </div>
-                                                        <div class="col-lg-5 col-md-6">
+
+                                                        <div class="col-lg-6 col-md-6">
                                                             <div class="invoice-total-card">
-                                                                <div class="invoice-total-box">
-                                                                    <div class="invoice-total-inner">
-                                                                        <p>Total Price <span>{{ order.get_total }} $</span></p>
-                                                                        <p>Tax<span>{{ order.product.tax }}</span></p>
-                                                                        <p>Total/Tax<span>{{ order.get_total_with_tax }} $ </span></p>
+
+                                                                <div class="card">
+                                                                    <div class="card-header">
+                                                                        <h5 class="card-title">Bill</h5>
                                                                     </div>
-                                                                    <div class="invoice-total-footer">
-                                                                        <h4>Total Amount <span>{{ order.add_totals }} $</span></h4>
+                                                                    <br>
+                                                                    <div class="card-body" style="height: 250px">
+                                                                        <div class="invoice-total-box">
+                                                                            <div class="invoice-total-inner">
+                                                                                <p>Total Price
+                                                                                    <span>{{ order.get_total }} $</span>
+                                                                                </p>
+                                                                                <p>
+                                                                                    Tax<span>{{ order.product.tax }}</span>
+                                                                                </p>
+                                                                                <p>
+                                                                                    Total/Tax<span>{{ order.get_total_with_tax }} $ </span>
+                                                                                </p>
+                                                                            </div>
+                                                                            <div class="invoice-total-footer">
+                                                                                <h4>Total Amount
+                                                                                    <span>{{ order.add_totals }} $</span>
+                                                                                </h4>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+
                                                 <div class="invoice-sign text-end">
                                                     <span class="d-block">Authorised Sign</span>
                                                     <img class="img-fluid d-inline-block"
