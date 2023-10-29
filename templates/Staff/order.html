@@ -24,6 +24,7 @@
                         <h5>Purchase Orders</h5>
                         <div class="list-btn">
                             <ul class="filter-list">
+
                                 <li>
                                     <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
                                        data-bs-placement="bottom" data-bs-original-title="Filter"><span
@@ -51,13 +52,13 @@
                                         <thead class="thead-light">
                                         <tr>
                                             <th>Order By</th>
-                                            <th>Customer</th>
                                             <th>Product</th>
                                             <th>Quantity</th>
                                             <th>Total Price</th>
                                             <th>Category</th>
                                             <th>Date Time</th>
-                                            <th>Invoice</th>
+                                            <th>Invoice To Customer</th>
+                                            <th>Witch Product</th>
                                             <th>Action</th>
                                         </tr>
                                         </thead>
@@ -67,30 +68,60 @@
 
                                                 <td>
                                                     <a href="{% url 'staff' %}"
-                                                       class="avatar avatar-sm me-2">
+                                                       class="avatar-sm me-2">
                                                         <img class="avatar-img rounded-circle"
                                                              src="{{ order.staff.profile.image.url }}"
                                                              alt="User Image"><span
-                                                            style="margin-left: 0.5rem; color: #8a8a8a">{{ order.staff.username }}</span>
+                                                            style="margin-left: 0.5rem; color: #8a8a8a">{{ order.staff.username|title }}</span>
                                                     </a>
-
-
                                                 </td>
-
-                                                <td>{{ order.customer.name }}</td>
                                                 <td>
-                                                    <a href="{% url 'productListView' %}">{{ order.product.name }}</a>
+                                                    <a href="{% url 'productListView' %}"
+                                                       class="avatar-sm me-2">
+                                                        <span
+                                                                style="color: #8a8a8a">{{ order.product.name|title }}</span>
+                                                    </a>
                                                 </td>
                                                 <td>{{ order.order_quantity }}</td>
                                                 <td>{{ order.get_total }} $</td>
                                                 <td>{{ order.product.category.title }}</td>
 
                                                 <td>{{ order.datetime|date:"Y-m-d H:m:s" }}</td>
+
                                                 <td>
-                                                    <a href="{% url 'invoice_customer_detail' order.id %}">
-                                                        <img src="{% static 'assets/img/icons/receipt-item.svg' %}" alt="">
+                                                    <a href="{% url 'invoiceCustomerDetail' order.id %}"
+                                                       class="avatar-sm me-2">
+                                                        <img class="avatar-img rounded-circle"
+                                                             src="{% static 'assets/img/icons/receipt-item.svg' %}"
+                                                             alt="User Image"><span
+                                                            style="margin-left: 0.5rem; color: #170f0f">{{ order.customer.name|title }}</span>
                                                     </a>
                                                 </td>
+
+
+                                                <form action="{% url 'order' %}" method="post">
+                                                    {% csrf_token %}
+                                                    <td>
+                                                        <div class="checkbox">
+
+                                                            <label>
+                                                                <input style="width: 20px; height: 20px; margin-right: 1rem;"
+                                                                       class="btn btn-outline-info" type="checkbox"
+                                                                       name="active"
+                                                                       value="{{ order.id }}">
+
+                                                                {% if order.active == True %}
+                                                                    <button type="submit"
+                                                                            class="btn btn-success">{{ order.active }}</button>
+                                                                {% else %}
+                                                                    <button type="submit"
+                                                                            class="btn btn-danger btn-light">{{ order.active }}</button>
+                                                                {% endif %}
+
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                </form>
 
                                                 <td class="d-flex align-items-center">
                                                     <div class="dropdown dropdown-action">
@@ -141,6 +172,4 @@
 
     </body>
 
-    <!-- Mirrored from kanakku.dreamguystech.com/html/template/purchase-orders.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Oct 2023 15:23:30 GMT -->
-    </html>
 {% endblock %}

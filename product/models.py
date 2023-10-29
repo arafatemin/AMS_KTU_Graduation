@@ -4,6 +4,11 @@ from django.db import models
 from customer.models import Customer
 
 
+
+is_active = (
+    (True, True),
+    (False, False)
+)
 class UnitType(models.Model):
     name                = models.CharField(max_length=64,unique=True)
     description         = models.TextField(null=True,blank=True)
@@ -102,8 +107,6 @@ class ProductInStock(models.Model):
 
 
 
-
-
 class Invoice(models.Model):
     customer                    = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True,blank=True)
     user                        = models.ForeignKey(User, on_delete=models.CASCADE, null=True,blank=True)
@@ -112,8 +115,7 @@ class Invoice(models.Model):
     description                 = models.TextField(null=True,blank=True)
 
     def __str__(self):
-        return f"{self.datetime.strftime('%Y-%m-%d %H:%M:%S')} For {self.customer}"
-
+        return self.customer.name
 
 
 
@@ -125,6 +127,7 @@ class Order(models.Model):
     invoice                 = models.ForeignKey(Invoice, on_delete=models.CASCADE, blank=True, null=True)
     order_quantity          = models.PositiveIntegerField(blank=True, null=True)
     datetime                = models.DateTimeField(auto_now_add=True)
+    active                  = models.BooleanField(choices=is_active, default=False)
 
 
     class Meta:
@@ -135,6 +138,17 @@ class Order(models.Model):
     @property
     def get_total(self):
         total = self.product.sell_price * self.order_quantity
+        return total
+
+    @property
+    def get_total_with_tax(self):
+        total = self.product.sell_price * self.order_quantity
+        total_tax = (total * self.product.tax.amount) / 100
+        return total_tax
+
+    @property
+    def add_totals(self):
+        total = self.get_total + self.get_total_with_tax
         return total
 
 

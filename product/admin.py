@@ -48,7 +48,7 @@ class ProductInStockAdmin(admin.ModelAdmin):
 
 class OrderAdmin(admin.ModelAdmin):
     model = Order
-    list_display = ['product', 'order_quantity', 'staff', 'datetime']
+    list_display = ['product', 'order_quantity', 'staff', 'active', 'datetime']
     list_display_links = ['staff', 'product']
     list_per_page = 10
 

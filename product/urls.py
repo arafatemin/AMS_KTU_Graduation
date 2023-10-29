@@ -47,7 +47,9 @@ urlpatterns = [
 
 
     path('invoice', invoice_view, name='invoice'),
-    path('invoiceCustomerDetail/<int:pk>', invoice_customer_detail_view, name='invoice_customer_detail'),
+    path('invoiceCreate', invoice_create_view, name='invoiceCreate'),
+    path('invoiceCustomerDetail/<int:pk>', invoice_customer_detail_view, name='invoiceCustomerDetail'),
+    path('addProductToInvoice/<int:pk>', add_product_to_invoice_view, name='addProductToInvoice'),
 
 
 

@@ -9,6 +9,13 @@
 
         <div class="page-wrapper">
             <div class="content container-fluid">
+                {% for message in messages %}
+                    {% if message %}
+                        <div class="alert alert-{{ message.tags }} text-center">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
 
                 <div class="card">
                     <div class="card-body">
@@ -17,10 +24,6 @@
                                 <h5>Invoice Details</h5>
                                 <div class="list-btn">
                                     <ul class="filter-list">
-                                        <li>
-                                            <a class="btn btn-import me-2" href="javascript:void(0);"><span><i
-                                                    class="fe fe-printer me-2"></i>Print</span></a>
-                                        </li>
                                         <li>
                                             <a href="#" class="btn btn-primary" download><i class="fa fa-download me-2"
                                                                                             aria-hidden="true"></i>Download</a>
@@ -97,10 +100,8 @@
 
 
                                                 <div class="invoice-item invoice-table-wrap">
-                                                    <div class="invoice-table-head text-end">
-                                                        <a class="btn btn-primary" href="{% url 'orderCreate' %}"><i
-                                                                class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add
-                                                            Order</a>
+                                                    <div class="invoice-table-head">
+                                                        <h5>Purchase Order: </h5>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-12">
@@ -108,43 +109,30 @@
                                                                 <table class="table table-center table-hover mb-0">
                                                                     <thead class="thead-light">
                                                                     <tr>
-                                                                        <th>Product / Service</th>
+                                                                        <th>Product Code</th>
+                                                                        <th>Product</th>
                                                                         <th>Quantity</th>
+                                                                        <th>Category</th>
                                                                         <th>Unit</th>
-                                                                        <th>Rate</th>
-                                                                        <th>Discount</th>
                                                                         <th>Tax</th>
                                                                         <th>Amount</th>
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                    <tr>
-                                                                        <td>Lorem ipsum dolor sit amet</td>
-                                                                        <td>1</td>
-                                                                        <td>Pcs</td>
-                                                                        <td>$120.00</td>
-                                                                        <td>0</td>
-                                                                        <td>0</td>
-                                                                        <td>$120.00</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Lorem ipsum dolor sit amet</td>
-                                                                        <td>1</td>
-                                                                        <td>Pcs</td>
-                                                                        <td>$210.00</td>
-                                                                        <td>0</td>
-                                                                        <td>0</td>
-                                                                        <td>$210.00</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Lorem ipsum dolor sit amet</td>
-                                                                        <td>1</td>
-                                                                        <td>Pcs</td>
-                                                                        <td>$310.00</td>
-                                                                        <td>0</td>
-                                                                        <td>0</td>
-                                                                        <td>$310.00</td>
-                                                                    </tr>
+
+                                                                    {% for o in orders %}
+                                                                        <tr>
+                                                                            <td>{{ o.product.productCode }}</td>
+                                                                            <td>{{ o.product.name }}</td>
+                                                                            <td>{{ o.order_quantity }}</td>
+                                                                            <td>{{ o.product.category.title }}</td>
+                                                                            <td>{{ o.product.type }}</td>
+                                                                            <td>{{ o.product.tax }}</td>
+                                                                            <td>{{ o.get_total }}</td>
+                                                                        </tr>
+                                                                    {% endfor %}
+
+
                                                                     </tbody>
                                                                 </table>
                                                             </div>
@@ -157,9 +145,9 @@
                                                     <div class="row align-items-center justify-content-between">
                                                         <div class="col-lg-6 col-md-6">
                                                             <div class="invoice-terms align-center">
-<span class="invoice-terms-icon bg-white-smoke me-3">
-<i class="fe fe-file-text"></i>
-</span>
+                                                                <span class="invoice-terms-icon bg-white-smoke me-3">
+                                                                <i class="fe fe-file-text"></i>
+                                                                </span>
                                                                 <div class="invocie-note">
                                                                     <h6>Terms & Conditions</h6>
                                                                     <p class="mb-0">Authoritatively envisioneer business
@@ -167,9 +155,9 @@
                                                                 </div>
                                                             </div>
                                                             <div class="invoice-terms align-center">
-<span class="invoice-terms-icon bg-white-smoke me-3">
-<i class="fe fe-file-minus"></i>
-</span>
+                                                                <span class="invoice-terms-icon bg-white-smoke me-3">
+                                                                <i class="fe fe-file-minus"></i>
+                                                                </span>
                                                                 <div class="invocie-note">
                                                                     <h6>Note</h6>
                                                                     <p class="mb-0">This is computer generated receipt
@@ -181,12 +169,12 @@
                                                             <div class="invoice-total-card">
                                                                 <div class="invoice-total-box">
                                                                     <div class="invoice-total-inner">
-                                                                        <p>Taxable <span>$360.00</span></p>
-                                                                        <p>Discount<span>$13.20</span></p>
-                                                                        <p>Vat <span>$0.00</span></p>
+                                                                        <p>Total Price <span>{{ order.get_total }} $</span></p>
+                                                                        <p>Tax<span>{{ order.product.tax }}</span></p>
+                                                                        <p>Total/Tax<span>{{ order.get_total_with_tax }} $ </span></p>
                                                                     </div>
                                                                     <div class="invoice-total-footer">
-                                                                        <h4>Total Amount <span>$347.80</span></h4>
+                                                                        <h4>Total Amount <span>{{ order.add_totals }} $</span></h4>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -195,7 +183,8 @@
                                                 </div>
                                                 <div class="invoice-sign text-end">
                                                     <span class="d-block">Authorised Sign</span>
-                                                    <img class="img-fluid d-inline-block" src="assets/img/signature.png"
+                                                    <img class="img-fluid d-inline-block"
+                                                         src="{% static 'assets/img/signature.png' %}"
                                                          alt="sign">
                                                 </div>
 
@@ -210,69 +199,6 @@
             </div>
         </div>
 
-
-        <div class="modal custom-modal fade pay-modal" id="paynow_modal" role="dialog">
-            <div class="modal-dialog modal-dialog-centered modal-md">
-                <div class="modal-content">
-                    <div class="modal-header border-0 pb-0">
-                        <div class="form-header modal-header-title text-start mb-0">
-                            <h4 class="modal-title">Invoice <span>#INV 00001</span></h4>
-                            <h5><span>Due Date : </span> 03 Jun 2023</h5>
-                        </div>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span class="align-center" aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="payment-heading">
-                                <h5>Select a Payment Method</h5>
-                            </div>
-                            <div class="form-group paynow-tab">
-                                <ul class="nav nav-pills d-flex row" id="pills-tab" role="tablist">
-                                    <li class="nav-item col-sm-6" role="presentation">
-                                        <button class="nav-link active cash" id="pills-home-tab" data-bs-toggle="pill"
-                                                data-bs-target="#pills-home" type="button" role="tab"
-                                                aria-controls="pills-home" aria-selected="true">Cash<i
-                                                class="fe fe-dollar-sign"></i></button>
-                                    </li>
-                                    <li class="nav-item col-sm-6" role="presentation">
-                                        <button class="nav-link cheque" id="pills-profile-tab" data-bs-toggle="pill"
-                                                data-bs-target="#pills-profile" type="button" role="tab"
-                                                aria-controls="pills-profile" aria-selected="false">Cheque<i
-                                                class="fe fe-file-text"></i></button>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="tab-content pt-0" id="pills-tabContent">
-                                <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
-                                     aria-labelledby="pills-home-tab">
-                                    <div class="form-group">
-                                        <label>Amount <span class="text-danger"> *</span></label>
-                                        <input type="text" class="form-control" placeholder="Enter Amount">
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="pills-profile" role="tabpanel"
-                                     aria-labelledby="pills-profile-tab">
-                                    <div class="form-group">
-                                        <label>Amount <span class="text-danger"> *</span></label>
-                                        <input type="text" class="form-control" placeholder="Enter Amount">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Cheque Number <span class="text-danger"> *</span></label>
-                                        <input type="text" class="form-control" placeholder="Enter Cheque Number">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#" data-bs-dismiss="modal" class="btn btn-primary paid-cancel-btn me-2">Cancel</a>
-                        <a href="#" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">pay Now</a>
-                    </div>
-                </div>
-            </div>
-        </div>
 
     </div>
 

@@ -1,3 +1,5 @@
+from django.db.models import Q
+
 from users.models import *
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
@@ -387,6 +389,18 @@ def stock_delete_view(request, pk):
 
 @login_required
 def order_view(request):
+    if request.method == 'POST' or request.method == None:
+        actives = request.POST.getlist('active')
+
+        for active_id in actives:
+            order = Order.objects.get(id=active_id)
+            if order.active == False:
+                order.active = True
+            else:
+                order.active = False
+            order.save()
+        # return redirect('order')
+
     orders = Order.objects.all()
     context = {
         "orders": orders,
@@ -407,7 +421,7 @@ def order_Create_view(request):
 
 
 
-            newOrder = Order(staff=request.user, product=form.instance.product, order_quantity=form.instance.order_quantity, customer=form.instance.customer)
+            newOrder = Order(staff=request.user, product=form.instance.product, order_quantity=form.instance.order_quantity, customer=form.instance.customer, invoice=form.instance.invoice)
             product_name = form.cleaned_data.get('product')
             newOrder.save()
             messages.success(request, f'In order {form.instance.order_quantity} {product_name} created successfully.')
@@ -415,7 +429,11 @@ def order_Create_view(request):
             return HttpResponseRedirect('order')
     else:
         form = OrderFrom()
-    return render(request, "Staff/orderCreate.html", {"form": form})
+
+    context = {
+        'form': form,
+    }
+    return render(request, "Staff/orderCreate.html", context)
 
 
 
@@ -423,14 +441,14 @@ def order_Create_view(request):
 def order_update_view(request, pk):
     order = Order.objects.get(id=pk)
     if request.method == "POST":
-        form = OrderFrom(request.POST, instance=order)
+        form = OrderFromForUpdate(request.POST, instance=order)
         if form.is_valid():
             form.save()
             product_name = form.cleaned_data.get('product')
             messages.success(request, f"{product_name} updated successfully")
             return redirect("order")
     else:
-        form = OrderFrom(instance=order)
+        form = OrderFromForUpdate(instance=order)
     context = {
         'form': form,
     }
@@ -452,27 +470,82 @@ def order_delete_view(request, pk):
 
 
 
-def invoice_view(request, pk):
-    pass
+def invoice_view(request):
+    invoices = Order.objects.all()
+    context = {
+        "invoices": invoices
+    }
+    return render(request, "Invoice/invoices.html", context)
+
+
+def invoice_create_view(request):
+    if request.method == 'POST':
+        form = InvoiceFrom(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('invoice')
+    else:
+        form = InvoiceFrom()
+
+    context = {
+        'form': form
+    }
+
+    return render(request, "Invoice/createInvoice.html", context)
+
+
+
 
 def invoice_customer_detail_view(request, pk):
     order = Order.objects.get(id=pk)
-    if request.method == "POST":
-        form = OrderFrom(request.POST)
-        if form.is_valid():
-            print(form.instance.product.name)
-            form.save()
-            product_name = form.cleaned_data.get('product')
-            messages.success(request, f"{product_name} created successfully")
-            return redirect("invoice_detail_customer")
 
     context = {
-        'order': order
+        'order': order,
+        "orders": Order.objects.filter(
+            Q(customer=order.customer) &
+            Q(staff=order.staff) &
+            Q(active=True)
+        ),
+
     }
     return render(request, 'Invoice/invoice_detail_customer.html', context)
 
 
 
+
+
+
+
+
+def add_product_to_invoice_view(request, pk):
+    order = Order.objects.get(id=pk)
+    if request.method == 'POST':
+        customer = request.POST.get("customer")
+        form = OrderFromToInvoice(request.POST)
+        if form.is_valid():
+            if form.instance.product.quentity >= form.instance.order_quantity and form.instance.order_quantity > 0 and form.instance.product.quentity > 0:
+                form.instance.product.quentity -= form.instance.order_quantity
+                form.instance.product.save()
+            else:
+                messages.warning(request,
+                                 f'Product {form.instance.order_quantity} not enough quantity in store :( you have only {form.instance.product.quentity} product/s in store')
+                return HttpResponseRedirect('../invoiceCustomerDetail/' + str(order.pk))
+
+            newOrder = Order(staff=request.user, product=form.instance.product,
+                             order_quantity=form.instance.order_quantity, customer=form.instance.customer)
+            product_name = form.cleaned_data.get('product')
+            newOrder.customer = Customer.objects.get(name=request.POST.get("customer"))
+            newOrder.save()
+            messages.success(request, f'For {customer}  {form.instance.order_quantity} {product_name} created successfully.')
+
+            return HttpResponseRedirect('../invoiceCustomerDetail/' + str(order.pk))
+    else:
+        form = OrderFromToInvoice()
+    context = {
+        'form': form,
+        'order': order,
+    }
+    return render(request, "Invoice/add_product_to_invoice.html", context)
 
 
 

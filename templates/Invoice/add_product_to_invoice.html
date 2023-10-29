@@ -27,13 +27,21 @@
 
                 <form action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
+                    <div class="col-lg-12 col-sm-12">
+                        <div class="form-group">
+                            <label>Customer Name<span class="text-danger">*</span></label>
+                            <input type="text" name="customer" class="form-control"
+                                   value="{{ order.customer.name }}" readonly>
+                        </div>
+                    </div>
+
                     {{ form|crispy }}
 
 
 
 
                     <div class="text-end">
-                        <a href="{% url 'order' %}" class="btn btn-primary cancel me-2">Cancel</a>
+                        {#                        <a href="{% url 'invoice_customer_detail_view' order.id %}" class="btn btn-primary cancel me-2">Cancel</a>#}
                         <input type="submit" class="btn btn-primary" value="Add Order">
                     </div>
                 </form>

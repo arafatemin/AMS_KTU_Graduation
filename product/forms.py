@@ -50,7 +50,18 @@ class CreateNewProdcutInStockFrom(forms.ModelForm):
 class OrderFrom(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ['product', 'customer', 'order_quantity']
+        fields = ['product', 'customer', 'invoice', 'order_quantity']
+
+
+class OrderFromForUpdate(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = '__all__'
+
+class OrderFromToInvoice(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['product', 'order_quantity']
 
 
 class InvoiceFrom(forms.ModelForm):

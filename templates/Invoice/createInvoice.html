@@ -18,9 +18,11 @@
                         </div>
                     {% endif %}
                 {% endfor %}
+
+
                 <div class="page-header">
                     <div class="content-page-header">
-                        <h5>Add Order</h5>
+                        <h5>Add Invoice</h5>
                     </div>
                 </div>
 
@@ -33,8 +35,8 @@
 
 
                     <div class="text-end">
-                        <a href="{% url 'order' %}" class="btn btn-primary cancel me-2">Cancel</a>
-                        <input type="submit" class="btn btn-primary" value="Add Order">
+                        <a href="{% url 'invoice' %}" class="btn btn-primary cancel me-2">Cancel</a>
+                        <input type="submit" class="btn btn-primary" value="Add Invoice">
                     </div>
                 </form>
 

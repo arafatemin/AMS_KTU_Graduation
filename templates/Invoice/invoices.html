@@ -10,82 +10,65 @@
         <div class="page-wrapper">
             <div class="content container-fluid">
 
+            {% for message in messages %}
+                    {% if message %}
+                        <div class="alert alert-success text-center">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
                 <div class="page-header">
                     <div class="content-page-header">
-                        <h5>Customer Details</h5>
-                        <h4  class="text-end"><a href="{% url 'customerView' %}"><input type="submit" style="border-bottom-left-radius: 45px; border-top-left-radius: 45px;" class="btn btn-outline-info" value="< Go Back"></a></h4>
-                    </div>
-                </div>
+                        <h5>Customers</h5>
+                        <div class="list-btn">
+                            <ul class="filter-list">
+                                <li>
+                                    <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
+                                       data-bs-placement="bottom" title="Filter"><span class="me-2"><img
+                                            src="{% static 'assets/img/icons/filter-icon.svg' %}" alt="filter"></span>Filter
+                                    </a>
+                                </li>
 
-
-                <div class="card customer-details-group">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                                <div class="customer-details">
-                                    <div class="d-flex align-items-center">
-                                        <span class="customer-widget-img d-inline-flex">
-                                        <img class="rounded-circle"
-                                             src="{% static 'assets/img/profiles/avatar-16.jpg' %}" alt>
-                                        </span>
-                                        <div class="customer-details-cont">
-                                            <h6>{{ customer.name }}</h6>
-
+                                <li>
+                                    <div class="dropdown dropdown-action" data-bs-toggle="tooltip"
+                                         data-bs-placement="top" title="Download">
+                                        <a href="#" class="btn-filters" data-bs-toggle="dropdown" aria-expanded="false"><span><i
+                                                class="fe fe-download"></i></span></a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <ul class="d-block">
+                                                <li>
+                                                    <a class="d-flex align-items-center download-item"
+                                                       href="javascript:void(0);" download><i
+                                                            class="far fa-file-pdf me-2"></i>PDF</a>
+                                                </li>
+                                                <li>
+                                                    <a class="d-flex align-items-center download-item"
+                                                       href="javascript:void(0);" download><i
+                                                            class="far fa-file-text me-2"></i>CVS</a>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                                <div class="customer-details">
-                                    <div class="d-flex align-items-center">
-                                        <span class="customer-widget-icon d-inline-flex">
-                                        <i class="fe fe-mail"></i>
-                                        </span>
-                                        <div class="customer-details-cont">
-                                            <h6>Email Address</h6>
-                                            <p><a href="#">{{ customer.email }}</a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                                <div class="customer-details">
-                                    <div class="d-flex align-items-center">
-                                        <span class="customer-widget-icon d-inline-flex">
-                                        <i class="fe fe-phone"></i>
-                                        </span>
-                                        <div class="customer-details-cont">
-                                            <h6>Phone Number</h6>
-                                            <p>{{ customer.phone_number }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                </li>
+                                <li>
+                                    <a class="btn-filters" href="javascript:void(0);" data-bs-toggle="tooltip"
+                                       data-bs-placement="bottom" title="Print"><span><i
+                                            class="fe fe-printer"></i></span> </a>
+                                </li>
 
-
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                                <div class="customer-details">
-                                    <div class="d-flex align-items-center">
-                                        <span class="customer-widget-icon d-inline-flex">
-                                        <i class="fe fe-briefcase"></i>
-                                        </span>
-                                        <div class="customer-details-cont">
-                                            <h6>Customer Address</h6>
-                                            <p>{{ customer.address}}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                <li>
+                                    <a class="btn btn-primary" href="{% url 'invoiceCreate' %}"><i
+                                            class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Invoice</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
 
 
-
-
                 <div class="row">
-                    <div class="col-xl-2 col-lg-4 col-sm-6 col-12 d-flex">
+                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12 d-flex">
                         <div class="card inovices-card w-100">
                             <div class="card-body">
                                 <div class="dash-widget-header">
@@ -108,7 +91,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-2 col-lg-4 col-sm-6 col-12 d-flex">
+                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12 d-flex">
                         <div class="card inovices-card w-100">
                             <div class="card-body">
                                 <div class="dash-widget-header">
@@ -116,7 +99,7 @@
                                     <img src="assets/img/icons/transaction-minus.svg" alt>
                                     </span>
                                     <div class="dash-count">
-                                        <div class="dash-title">Outstanding</div>
+                                        <div class="dash-title">Total Customer</div>
                                         <div class="dash-counts">
                                             <p>$325,215</p>
                                         </div>
@@ -131,15 +114,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-2 col-lg-4 col-sm-6 col-12 d-flex">
+                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12 d-flex">
                         <div class="card inovices-card w-100">
                             <div class="card-body">
                                 <div class="dash-widget-header">
-<span class="inovices-widget-icon bg-warning-light">
-<img src="assets/img/icons/archive-book.svg" alt>
-</span>
+                                    <span class="inovices-widget-icon bg-warning-light">
+                                    <img src="assets/img/icons/archive-book.svg" alt>
+                                    </span>
                                     <div class="dash-count">
-                                        <div class="dash-title">Total Overdue</div>
+                                        <div class="dash-title">Total Money</div>
                                         <div class="dash-counts">
                                             <p>$7825</p>
                                         </div>
@@ -154,15 +137,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-2 col-lg-4 col-sm-6 col-12 d-flex">
+                    <div class="col-xl-3 col-lg-4 col-sm-6 col-12 d-flex">
                         <div class="card inovices-card w-100">
                             <div class="card-body">
                                 <div class="dash-widget-header">
-<span class="inovices-widget-icon bg-primary-light">
-<img src="assets/img/icons/clipboard-close.svg" alt>
-</span>
+                                    <span class="inovices-widget-icon bg-primary-light">
+                                    <img src="{% static 'assets/img/icons/clipboard-close.svg' %}" alt>
+                                    </span>
                                     <div class="dash-count">
-                                        <div class="dash-title">Cancelled</div>
+                                        <div class="dash-title">Total Debt</div>
                                         <div class="dash-counts">
                                             <p>100</p>
                                         </div>
@@ -173,52 +156,6 @@
                                             class="rounded-circle bg-light-gray">04</span></p>
                                     <p class="inovice-trending text-danger-light">05 <span class="ms-2"><i
                                             class="fe fe-trending-down"></i></span></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-4 col-sm-6 col-12 d-flex">
-                        <div class="card inovices-card w-100">
-                            <div class="card-body">
-                                <div class="dash-widget-header">
-<span class="inovices-widget-icon bg-green-light">
-<img src="assets/img/icons/message-edit.svg" alt>
-</span>
-                                    <div class="dash-count">
-                                        <div class="dash-title">Draft</div>
-                                        <div class="dash-counts">
-                                            <p>$125,586</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <p class="inovices-all">No of Invoice <span
-                                            class="rounded-circle bg-light-gray">06</span></p>
-                                    <p class="inovice-trending text-danger-light">02 <span class="ms-2"><i
-                                            class="fe fe-trending-down"></i></span></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-4 col-sm-6 col-12 d-flex">
-                        <div class="card inovices-card w-100">
-                            <div class="card-body">
-                                <div class="dash-widget-header">
-<span class="inovices-widget-icon bg-danger-light">
-<img src="assets/img/icons/3d-rotate.svg" alt>
-</span>
-                                    <div class="dash-count">
-                                        <div class="dash-title">Recurring</div>
-                                        <div class="dash-counts">
-                                            <p>$86,892</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <p class="inovices-all">No of Invoice <span
-                                            class="rounded-circle bg-light-gray">03</span></p>
-                                    <p class="inovice-trending text-success-light">02 <span class="ms-2"><i
-                                            class="fe fe-trending-up"></i></span></p>
                                 </div>
                             </div>
                         </div>
@@ -234,40 +171,30 @@
                                     <table class="table table-stripped table-hover datatable">
                                         <thead class="thead-light">
                                         <tr>
-                                            <th>
-                                                <label class="custom_check">
-                                                    <input type="checkbox" name="invoice">
-                                                    <span class="checkmark"></span>
-                                                </label>Invoice No
-                                            </th>
-                                            <th>Category</th>
+                                            <th>Invoice ID</th>
+                                            <th>Customer</th>
                                             <th>Created On</th>
                                             <th>Total Amount</th>
                                             <th>Paid Amount</th>
                                             <th>Payment Mode</th>
-                                            <th>Balance</th>
-                                            <th>Due Date</th>
-                                            <th>Status</th>
+                                            <th>Debt</th>
                                             <th class="text-end">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
+                                        {% for invoice in invoices %}
+                                            <tr>
                                             <td>
-                                                <label class="custom_check">
-                                                    <input type="checkbox" name="invoice">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                                <a href="invoice-details.html" class="invoice-link">#4987</a>
+                                                <a href="{% url 'invoiceCustomerDetail' invoice.id %}" class="invoice-link">#{{invoice.invoice.id}}</a>
                                             </td>
-                                            <td>Food</td>
-                                            <td>23 Mar 2023</td>
-                                            <td>$1,54,220</td>
+                                                <td>{{ invoice.customer.name }}</td>
+                                            <td>{{ invoice.datetime|date:'Y-m-d H:m'}}</td>
+                                            <td>${{invoice.get_total}}</td>
                                             <td>$1,50,000</td>
                                             <td>Cash</td>
                                             <td>$2,54,00</td>
-                                            <td>25 Mar 2023</td>
-                                            <td><span class="badge bg-success-light">Paid</span></td>
+
+
                                             <td>
                                                 <div class="dropdown dropdown-action">
                                                     <a href="#" class=" btn-action-icon " data-bs-toggle="dropdown"
@@ -311,6 +238,9 @@
                                                 </div>
                                             </td>
                                         </tr>
+
+                                        {% endfor %}
+
                                         </tbody>
                                     </table>
                                 </div>
