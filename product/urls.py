@@ -53,4 +53,7 @@ urlpatterns = [
 
 
 
+
+    path('pdf/<int:pk>', pdf_view, name="pdf"),
+
 ]

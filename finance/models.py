@@ -47,3 +47,12 @@ class Income(models.Model):
 
     class Meta:
         ordering = ['-datetime']
+
+
+
+
+
+
+
+
+

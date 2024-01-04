@@ -178,6 +178,7 @@
                             <li><a href="{% url 'outcome' %}">Outcome</a></li>
                             <li><a href="{% url 'income_category' %}">Income Category</a></li>
                             <li><a href="{% url 'outcome_category' %}">Outcome Category</a></li>
+                            <li><a href="{% url 'outcome_category' %}">istenilen Urun</a></li>
 
                             <li>
                                 <a href="debit-notes.html"><i class="fe fe-file-text"></i> <span>Debit Notes</span></a>
@@ -186,12 +187,27 @@
                     </li>
                 </ul>
 
-
                 <ul>
                     <li>
                         <a href="{% url 'customerView' %}"><i class="fas fa-user"></i> <span>Customers</span></a>
                     </li>
                 </ul>
+
+                 <ul>
+                    <li>
+                        <a href="{% url 'payment' %}"><i class="fas fa-credit-card-alt"></i> <span>Payments</span></a>
+                    </li>
+                </ul>
+
+
+                <ul>
+                    <li>
+                        <a href="{% url 'bank' %}"><i class="fas fa-bank"></i> <span>Banks</span></a>
+                    </li>
+                </ul>
+
+
+
 
 
                 <ul>
@@ -248,3 +264,23 @@
 
 <!-- Mirrored from kanakku.dreamguystech.com/html/template/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Oct 2023 15:21:18 GMT -->
 </html>
+
+
+"""
+gecen ayda 1000
+bu ayda 1200
+Onumuzdeki ayda muhtemelen 1000 civarında bir seyler satılacak
+
+Az parayla çok kar etmek
+Bilgisayar 1000$  50$ 10  500
+Telefonda 500$ 75$ 8 600
+
+Yapay zekada ne yapabiliriz?
+Satilan ürünlerin sayısı tahmin edilir
+Önümüzdeki ay Ne kadar kar edilebilir
+
+Istenilen urun listesi
+
+Algoritma
+Machine learning pipeline
+"""

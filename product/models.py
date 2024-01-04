@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Q
 
 from customer.models import Customer
 
@@ -120,6 +121,8 @@ class Invoice(models.Model):
 
 
 
+
+
 class Order(models.Model):
     staff                   = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     customer                = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True)
@@ -150,6 +153,47 @@ class Order(models.Model):
     def add_totals(self):
         total = self.get_total + self.get_total_with_tax
         return total
+
+
+
+    @property
+    def get_amounts_paid(self):
+        amounts_paid = self.invoice.payment_set.all()
+        total = sum([amount_paid.amount for amount_paid in amounts_paid])
+        return total
+
+
+
+
+    # last totelde kdv dahil toplam odenecek tutar veriliyor
+    @property
+    def lastTotals(self):
+        total = 0
+        orders = Order.objects.filter(Q(customer=self.customer) & Q(staff=self.staff) & Q(active=True))
+        for order in orders:
+            total += order.add_totals
+        return total
+
+    @property
+    def get_balance(self):
+        balance = self.lastTotals - self.get_amounts_paid
+        return int(balance)
+
+    @property
+    def get_payment_method(self):
+
+        payments_method = self.invoice.payment_set.all()
+        bank = []
+        b = ','
+        for payment in payments_method:
+            if payment.bank:
+                bank.append(payment.bank.bank_name)
+        return str(b.join(bank))
+
+
+
+
+
 
 
 

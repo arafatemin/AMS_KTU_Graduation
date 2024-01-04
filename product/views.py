@@ -1,8 +1,12 @@
+import datetime
+
 from django.db.models import Q
 
+
+from money.models import *
 from users.models import *
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.contrib import messages
@@ -10,6 +14,65 @@ from users.forms import UserForm, ProfileForm
 from .models import *
 from django.views.generic import *
 from .forms import *
+
+
+
+
+
+
+
+
+import io
+from django.http import FileResponse
+from reportlab.lib.units import inch
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
+
+
+def pdf_view(request,  pk):
+    order = Order.objects.get(id=pk)
+    buffer = io.BytesIO()
+    p = canvas.Canvas(buffer, pagesize=A4, bottomup=0)
+    textob = p.beginText()
+    textob.setTextOrigin(inch, inch)
+    textob.setFont("Helvetica", 13)
+    textob.setFillColor("black")
+
+
+    orders = Order.objects.filter(Q(customer=order.customer) & Q(staff=order.staff) & Q(active=True))
+    lines = []
+    str = "                                                     "
+    lines.append(f"Customer: {order.customer.name} {str} Staff: {order.staff.username}")
+    lines.append(f"Tel:{order.customer.phone_number}{str}Karadeniz Technical University")
+    lines.append(f"{order.datetime.strftime('%Y-%m-%d %H:%M:%S')}")
+    lines.append(f"=============================================================")
+    for order in orders:
+        lines.append(f"Product Code:   {str}{order.product.productCode}")
+        lines.append(f"Product:            {str} {order.product.name}")
+        lines.append(f"Quantity:           {str} {order.order_quantity}")
+        lines.append(f"Price:                {str} {order.product.sell_price}$")
+        lines.append(f"KDV:                 {str} {order.product.tax}$")
+        lines.append(f"Total:                {str} {order.add_totals}$")
+        lines.append(f"-----------------------------------------------------------------------------------")
+    lines.append(f"Total Price:       {str} {order.lastTotals}$")
+    lines.append(f"Total Paid:        {str} {order.get_amounts_paid}$")
+    lines.append(f"Total Balance:  {str} {order.get_balance}$")
+
+
+    for line in lines:
+        textob.textLine(line)
+
+    p.drawText(textob)
+    p.showPage()
+    p.save()
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename='report.pdf')
+
+
+
+
+
+
 
 
 @login_required
@@ -440,9 +503,21 @@ def order_Create_view(request):
 
 def order_update_view(request, pk):
     order = Order.objects.get(id=pk)
+    elimdeki_sayi = order.order_quantity
     if request.method == "POST":
         form = OrderFromForUpdate(request.POST, instance=order)
         if form.is_valid():
+            print(elimdeki_sayi,order.order_quantity, form.instance.order_quantity)
+            if elimdeki_sayi > form.instance.order_quantity:
+                form.instance.product.quentity += (elimdeki_sayi - form.instance.order_quantity)
+                form.instance.product.save()
+            elif elimdeki_sayi < form.instance.order_quantity:
+                form.instance.product.quentity -= (form.instance.order_quantity - elimdeki_sayi)
+                if form.instance.product.quentity < 0:
+                    messages.warning(request, f'Product {form.instance.order_quantity} not enough quantity in store.')
+                    return HttpResponseRedirect('../orderUpdate/' + str(order.pk))
+                else:
+                    form.instance.product.save()
             form.save()
             product_name = form.cleaned_data.get('product')
             messages.success(request, f"{product_name} updated successfully")
@@ -464,6 +539,7 @@ def order_delete_view(request, pk):
         order.delete()
         return redirect("order")
     return render(request, "Staff/orderDelete.html", {"order": order})
+
 
 
 
@@ -498,14 +574,11 @@ def invoice_create_view(request):
 
 def invoice_customer_detail_view(request, pk):
     order = Order.objects.get(id=pk)
-
+    orders = Order.objects.filter(Q(customer=order.customer) & Q(staff=order.staff) & Q(active=True))
     context = {
         'order': order,
-        "orders": Order.objects.filter(
-            Q(customer=order.customer) &
-            Q(staff=order.staff) &
-            Q(active=True)
-        ),
+        "orders": orders,
+        'banks': Bank.objects.all(),
 
     }
     return render(request, 'Invoice/invoice_detail_customer.html', context)

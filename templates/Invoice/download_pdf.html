@@ -1,0 +1,24 @@
+<html>
+<head>
+  <title>Test</title>
+  <style>
+    body {
+      background-color: #f7f7f7;
+    };
+
+    @page{
+        size: A4;
+        margin: 2.5cm 1.5cm 3.5cm 1.5cm;
+    };
+    @top-center{
+    content: "Company Name";
+    }
+  </style>
+</head>
+<body>
+  <h1>Test Template</h1>
+  {% for paragraph in paragraphs %}
+    <p>{{ paragraph }}</p>
+  {% endfor %}
+</body>
+</html>

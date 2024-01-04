@@ -9,299 +9,411 @@
 
         <div class="page-wrapper">
             <div class="content container-fluid">
-                {% for message in messages %}
-                    {% if message %}
-                        <div class="alert alert-{{ message.tags }} text-center">
-                            {{ message }}
-                        </div>
-                    {% endif %}
-                {% endfor %}
+                <div class="row">
+                    {% for message in messages %}
+                        {% if message %}
+                            <div class="alert alert-{{ message.tags }} text-center">
+                                {{ message }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
 
-                <div class="card">
-                    <div class="card-body">
-                        <div class="page-header">
-                            <div class="content-invoice-header">
-                                <h5>Invoice Details</h5>
-                                <div class="list-btn">
-                                    <ul class="filter-list">
-                                        <li>
-                                            <a href="#" class="btn btn-primary" download><i class="fa fa-download me-2"
-                                                                                            aria-hidden="true"></i>Download</a>
-                                        </li>
-                                    </ul>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="page-header">
+                                <div class="content-invoice-header">
+                                    <h5>Invoice Details</h5>
+                                    <div class="list-btn">
+                                        <ul class="filter-list">
+
+                                            <li>
+                                                <a href="{% url 'pdf' order.id %}" class="btn btn-primary"><i
+                                                        class="fa fa-download me-2"
+                                                        aria-hidden="true"></i>Download</a>
+
+                                            </li>
+
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row justify-content-center">
-                            <div class="col-lg-12">
-                                <div class="invoice-card">
-                                    <div class="card-bod">
-                                        <div class="card-table">
-                                            <div class="card-bod">
-
-
-                                                <div class="invoice-item invoice-item-two">
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="invoice-info mb-3">
-                                                                <strong class="customer-text-one">Invoiced
-                                                                    To<span>:</span></strong>
-                                                                <p class="text-start invoice-details-two invoice-details mb-1">
-                                                                    ID<span>: </span><strong>{{ order.customer.customer_id }}</strong>
-                                                                </p>
-                                                                <p class="text-start invoice-details-two invoice-details mb-1">
-                                                                    Name<span>: </span><strong>{{ order.customer.name }}</strong>
-                                                                </p>
-                                                                <p class="text-start invoice-details-two invoice-details mb-1">
-                                                                    Tel<span>: </span><strong>{{ order.customer.phone_number }}</strong>
-                                                                </p>
-                                                                <p class="text-start invoice-details-two invoice-details mb-1">
-                                                                    Email<span>: </span><strong>{{ order.customer.email }}</strong>
-                                                                </p>
-
-                                                                <p class="text-start invoice-details-two invoice-details mb-1">
-                                                                    Address<span>: </span><strong>{{ order.customer.address }}</strong>
-                                                                </p>
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="invoice-info invoice-info2 mb-3">
-                                                                <strong class="customer-text-one">Pay
-                                                                    To<span>:</span></strong>
-                                                                <p class="text-start invoice-details-two invoice-details mb-1">
-                                                                    staff<span>: </span><strong>{{ order.staff.username }}</strong>
-                                                                </p>
-                                                                <p class="text-start invoice-details-two invoice-details mb-1">
-                                                                    Email<span>: </span><strong>{{ order.staff.email }}</strong>
-                                                                </p>
-                                                                <p class="text-start invoice-details-two invoice-details mb-1">
-                                                                    Address<span>: </span><strong>{{ order.staff.profile.address }}</strong>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <div class="invoice-info invoice-info2 mb-3">
-                                                                <strong class="customer-text-one">Payment
-                                                                    Details<span>:</span></strong>
-                                                                <p class="text-start invoice-details-two invoice-details mb-1">
-                                                                    Date<span>: </span><strong>{{ order.datetime|date:'Y-m-d H:m:s' }}</strong>
-                                                                </p>
-                                                                <p class="text-start invoice-details-two invoice-details mb-1">
-                                                                    Account<span>: </span><strong>Cash</strong>
-                                                                </p>
+                            <div class="row justify-content-center">
+                                <div class="col-lg-12">
+                                    <div class="invoice-card">
+                                        <div class="card-bod">
+                                            <div class="card-table">
+                                                <div class="card-bod">
 
 
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                    <div class="invoice-item invoice-item-two">
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <div class="invoice-info mb-3">
+                                                                    <strong class="customer-text-one">Invoiced
+                                                                        To<span>:</span></strong>
+                                                                    <p class="text-start invoice-details-two invoice-details mb-1">
+                                                                        ID<span>: </span><strong>{{ order.customer.customer_id }}</strong>
+                                                                    </p>
+                                                                    <p class="text-start invoice-details-two invoice-details mb-1">
+                                                                        Name<span>: </span><strong>{{ order.customer.name }}</strong>
+                                                                    </p>
+                                                                    <p class="text-start invoice-details-two invoice-details mb-1">
+                                                                        Tel<span>: </span><strong>{{ order.customer.phone_number }}</strong>
+                                                                    </p>
+                                                                    <p class="text-start invoice-details-two invoice-details mb-1">
+                                                                        Email<span>: </span><strong>{{ order.customer.email }}</strong>
+                                                                    </p>
 
+                                                                    <p class="text-start invoice-details-two invoice-details mb-1">
+                                                                        Address<span>: </span><strong>{{ order.customer.address }}</strong>
+                                                                    </p>
 
-                                                <div class="invoice-item invoice-table-wrap">
-                                                    <div class="invoice-table-head">
-                                                        <h5>Purchase Order: </h5>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="table-responsive">
-                                                                <table class="table table-center table-hover mb-0">
-                                                                    <thead class="thead-light">
-                                                                    <tr>
-                                                                        <th>Product Code</th>
-                                                                        <th>Product</th>
-                                                                        <th>Quantity</th>
-                                                                        <th>Category</th>
-                                                                        <th>Unit</th>
-                                                                        <th>Tax</th>
-                                                                        <th>Amount</th>
-                                                                    </tr>
-                                                                    </thead>
-                                                                    <tbody>
-
-                                                                    {% for o in orders %}
-                                                                        <tr>
-                                                                            <td>{{ o.product.productCode }}</td>
-                                                                            <td>{{ o.product.name }}</td>
-                                                                            <td>{{ o.order_quantity }}</td>
-                                                                            <td>{{ o.product.category.title }}</td>
-                                                                            <td>{{ o.product.type }}</td>
-                                                                            <td>{{ o.product.tax }}</td>
-                                                                            <td>{{ o.get_total }}</td>
-                                                                        </tr>
-                                                                    {% endfor %}
-
-
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="terms-conditions">
-                                                    <div class="row align-items-center justify-content-between">
-                                                        <div class="col-lg-6 col-md-6">
-
-
-                                                            <div class="card">
-                                                                <div class="card-body">
-                                                                    <h4 class="header-title mb-4">Payment Method</h4>
-                                                                    <ul class="nav nav-tabs" role="tablist">
-                                                                        <li class="nav-item" role="presentation">
-                                                                            <a href="#home" data-bs-toggle="tab"
-                                                                               aria-expanded="false"
-                                                                               class="nav-link active"
-                                                                               aria-selected="false" role="tab"
-                                                                            >
-                                                                                Cash
-                                                                            </a>
-                                                                        </li>
-                                                                        <li class="nav-item" role="presentation">
-                                                                            <a href="#profile" data-bs-toggle="tab"
-                                                                               aria-expanded="true"
-                                                                               class="nav-link"
-                                                                               aria-selected="true" role="tab"
-                                                                               tabindex="-1">
-                                                                                Bank
-                                                                            </a>
-                                                                        </li>
-
-                                                                    </ul>
-                                                                    <div class="tab-content">
-                                                                        <div class="active tab-pane" id="home"
-                                                                             role="tabpanel">
-                                                                            <div class="card">
-                                                                                <div class="card-header">
-                                                                                    <h5 class="card-title">Cash
-                                                                                        Method</h5>
-                                                                                </div>
-                                                                                <br>
-                                                                                <div class="card-body">
-                                                                                    <form action="#">
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-form-label col-lg-2">Amount</label>
-                                                                                            <div class="col-lg-10">
-                                                                                                <div class="input-group">
-                                                                                                    <span class="input-group-text">$</span>
-                                                                                                    <input type="text"
-                                                                                                           class="form-control">
-                                                                                                    <button type="submit"
-                                                                                                            class="btn btn-success">
-                                                                                                        Send
-                                                                                                    </button>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                    </form>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="tab-pane show"
-                                                                             id="profile" role="tabpanel">
-                                                                            <div class="card">
-                                                                                <div class="card-header">
-                                                                                    <h5 class="card-title">Bank
-                                                                                        Method</h5>
-                                                                                </div>
-                                                                                <br>
-                                                                                <div class="card-body">
-                                                                                    <form action="#">
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-form-label col-lg-2">Bank</label>
-                                                                                            <div class="col-lg-10">
-                                                                                                <div class="input-group">
-                                                                                                    <span class="input-group-text">B</span>
-                                                                                                    <select style="width: 90%; height: 40px"
-                                                                                                            name="cars"
-                                                                                                            id="cars">
-                                                                                                        <option value="volvo">
-                                                                                                            Ziraat
-                                                                                                            Bank
-                                                                                                        </option>
-                                                                                                        <option value="saab">
-                                                                                                            Ak Bank
-                                                                                                        </option>
-                                                                                                        <option value="opel">
-                                                                                                            KuveytTurk
-                                                                                                            Bank
-                                                                                                        </option>
-                                                                                                    </select>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div class="form-group row">
-                                                                                            <label class="col-form-label col-lg-2">Amount</label>
-                                                                                            <div class="col-lg-10">
-                                                                                                <div class="input-group">
-                                                                                                    <span class="input-group-text">$</span>
-                                                                                                    <input type="text"
-                                                                                                           class="form-control">
-                                                                                                    <button type="submit"
-                                                                                                            class="btn btn-success">
-                                                                                                        Send
-                                                                                                    </button>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                    </form>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </div>
                                                                 </div>
                                                             </div>
+                                                            <div class="col-md-4">
+                                                                <div class="invoice-info invoice-info2 mb-3">
+                                                                    <strong class="customer-text-one">Pay
+                                                                        To<span>:</span></strong>
+                                                                    <p class="text-start invoice-details-two invoice-details mb-1">
+                                                                        staff<span>: </span><strong>{{ order.staff.username }}</strong>
+                                                                    </p>
+                                                                    <p class="text-start invoice-details-two invoice-details mb-1">
+                                                                        Email<span>: </span><strong>{{ order.staff.email }}</strong>
+                                                                    </p>
+                                                                    <p class="text-start invoice-details-two invoice-details mb-1">
+                                                                        Address<span>: </span><strong>{{ order.staff.profile.address }}</strong>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="invoice-info invoice-info2 mb-3">
+                                                                    <strong class="customer-text-one">Payment
+                                                                        Details<span>:</span></strong>
+                                                                    <p class="text-start invoice-details-two invoice-details mb-1">
+                                                                        Date<span>: </span><strong>{{ order.datetime|date:'Y-m-d H:m:s' }}</strong>
+                                                                    </p>
+                                                                    <p class="text-start invoice-details-two invoice-details mb-1">
+                                                                        Account<span>: </span><strong>Cash</strong>
+                                                                    </p>
 
+
+                                                                </div>
+                                                            </div>
                                                         </div>
+                                                    </div>
 
-                                                        <div class="col-lg-6 col-md-6">
-                                                            <div class="invoice-total-card">
+
+                                                    <div class="invoice-item invoice-table-wrap">
+                                                        <div class="invoice-table-head">
+                                                            <h5>Purchase Order: </h5>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-center table-hover mb-0">
+                                                                        <thead class="thead-light">
+                                                                        <tr>
+                                                                            <th>Product Code</th>
+                                                                            <th>Product</th>
+                                                                            <th>Quantity</th>
+                                                                            <th>Category</th>
+                                                                            <th>Unit</th>
+                                                                            <th>Tax</th>
+                                                                            <th>Amount</th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+
+                                                                        {% for o in orders %}
+                                                                            <tr>
+                                                                                <td>{{ o.product.productCode }}</td>
+                                                                                <td>{{ o.product.name }}</td>
+                                                                                <td>{{ o.order_quantity }}</td>
+                                                                                <td>{{ o.product.category.title }}</td>
+                                                                                <td>{{ o.product.type }}</td>
+                                                                                <td>{{ o.product.tax }}</td>
+                                                                                <td>{{ o.get_total }}</td>
+                                                                            </tr>
+                                                                        {% endfor %}
+
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="terms-conditions">
+                                                        <div class="row align-items-center justify-content-between">
+                                                            <div class="col-lg-6 col-md-6">
+
 
                                                                 <div class="card">
-                                                                    <div class="card-header">
-                                                                        <h5 class="card-title">Bill</h5>
-                                                                    </div>
-                                                                    <br>
-                                                                    <div class="card-body" style="height: 250px">
-                                                                        <div class="invoice-total-box">
-                                                                            <div class="invoice-total-inner">
-                                                                                <p>Total Price
-                                                                                    <span>{{ order.get_total }} $</span>
-                                                                                </p>
-                                                                                <p>
-                                                                                    Tax<span>{{ order.product.tax }}</span>
-                                                                                </p>
-                                                                                <p>
-                                                                                    Total/Tax<span>{{ order.get_total_with_tax }} $ </span>
-                                                                                </p>
+                                                                    <div class="card-body">
+                                                                        <h4 class="header-title mb-4">Payment
+                                                                            Method</h4>
+                                                                        <ul class="nav nav-tabs" role="tablist">
+                                                                            <li class="nav-item" role="presentation">
+                                                                                <a href="#home" data-bs-toggle="tab"
+                                                                                   aria-expanded="false"
+                                                                                   class="nav-link active"
+                                                                                   aria-selected="false" role="tab"
+                                                                                   style="background-color: #F3F3F9">
+                                                                                    Cash
+                                                                                </a>
+                                                                            </li>
+                                                                            <li class="nav-item" role="presentation">
+                                                                                <a href="#profile" data-bs-toggle="tab"
+                                                                                   aria-expanded="true"
+                                                                                   class="nav-link"
+                                                                                   aria-selected="true" role="tab"
+                                                                                   tabindex="-1"
+                                                                                   style="background-color: #F3F3F9; margin-left: 0.5rem">
+                                                                                    Bank
+                                                                                </a>
+                                                                            </li>
+
+                                                                        </ul>
+                                                                        <div class="tab-content">
+                                                                            <div class="active tab-pane" id="home"
+                                                                                 role="tabpanel">
+                                                                                <div class="card">
+                                                                                    <div class="card-header">
+                                                                                        <h5 class="card-title">Cash
+                                                                                            Method</h5>
+                                                                                    </div>
+                                                                                    <br>
+                                                                                    <div class="card-body">
+                                                                                        <form action="{% url 'cashMethod' %}"
+                                                                                              method="POST">
+                                                                                            {% csrf_token %}
+
+
+                                                                                            <div class="form-group row">
+
+                                                                                                <div class="col-lg-3">
+                                                                                                    <div class="input-group">
+                                                                                                        <span class="input-group-text">ID</span>
+                                                                                                        <input type="number"
+                                                                                                               class="form-control"
+                                                                                                               name="order"
+                                                                                                               value="{{ order.id }}"
+                                                                                                               readonly>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="col-lg-9">
+                                                                                                    <div class="input-group">
+                                                                                                        <span class="input-group-text">$</span>
+                                                                                                        <input type="number"
+                                                                                                               class="form-control"
+                                                                                                               name="amount"
+                                                                                                               placeholder="{{ order.get_balance }}">
+
+
+                                                                                                    </div>
+                                                                                                </div>
+
+
+                                                                                                <div class="col-lg-12"
+                                                                                                     style="margin-top: 1rem">
+                                                                                                    <div class="input-group">
+                                                                                                    <textarea
+                                                                                                            id="1"
+                                                                                                            name="description"
+                                                                                                            cols="58"
+                                                                                                            rows="3">
+                                                                                                    </textarea>
+                                                                                                    </div>
+                                                                                                </div>
+
+
+                                                                                                <button style="margin-top: 2rem"
+                                                                                                        type="submit"
+                                                                                                        class="btn btn-success">
+                                                                                                    Send
+                                                                                                </button>
+                                                                                            </div>
+
+
+                                                                                        </form>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
-                                                                            <div class="invoice-total-footer">
-                                                                                <h4>Total Amount
-                                                                                    <span>{{ order.add_totals }} $</span>
-                                                                                </h4>
+
+                                                                            <div class="tab-pane show" id="profile"
+                                                                                 role="tabpanel">
+                                                                                <div class="card">
+                                                                                    <div class="card-header">
+                                                                                        <h5 class="card-title">Bank
+                                                                                            Method</h5>
+                                                                                    </div>
+                                                                                    <br>
+                                                                                    <div class="card-body">
+                                                                                        <form action="{% url 'bankMethod' %}"
+                                                                                              method="POST">
+                                                                                            {% csrf_token %}
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-form-label col-lg-3">Select
+                                                                                                    A Bank</label>
+                                                                                                <div class="col-lg-9">
+                                                                                                    <div class="input-group">
+                                                                                                        <span class="input-group-text">B</span>
+                                                                                                        <select name="bank"
+                                                                                                                style="width: 88%; height: 45px; border-radius: 5px">
+                                                                                                            {% for bank in banks %}
+                                                                                                                <option value="{{ bank.bank_name }}"
+                                                                                                                        style="text-align: center">
+                                                                                                                    {{ bank.bank_name }}
+                                                                                                                </option>
+                                                                                                            {% endfor %}
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="form-group row">
+
+
+                                                                                                <div class="col-lg-3">
+                                                                                                    <div class="input-group">
+                                                                                                        <span class="input-group-text">ID</span>
+                                                                                                        <input type="number"
+                                                                                                               class="form-control"
+                                                                                                               name="order"
+                                                                                                               value="{{ order.id }}"
+                                                                                                               readonly>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                                <div class="col-lg-9">
+                                                                                                    <div class="input-group">
+                                                                                                        <span class="input-group-text">$</span>
+                                                                                                        <input type="number"
+                                                                                                               class="form-control"
+                                                                                                               name="amount"
+                                                                                                               placeholder="{{ order.get_balance }}">
+
+
+                                                                                                    </div>
+                                                                                                </div>
+
+
+                                                                                                <div class="col-lg-12"
+                                                                                                     style="margin-top: 1rem">
+                                                                                                    <div class="input-group">
+                                                                                                    <textarea
+                                                                                                            id="2"
+                                                                                                            name="description"
+                                                                                                            cols="58"
+                                                                                                            rows="3">
+                                                                                                    </textarea>
+                                                                                                    </div>
+                                                                                                </div>
+
+
+                                                                                                <button style="margin-top: 2rem"
+                                                                                                        type="submit"
+                                                                                                        class="btn btn-success">
+                                                                                                    Send
+                                                                                                </button>
+                                                                                            </div>
+
+                                                                                        </form>
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
+
                                                                         </div>
                                                                     </div>
                                                                 </div>
 
                                                             </div>
+
+
+                                                            <div class="col-lg-6 col-md-6">
+                                                                <div class="invoice-total-card">
+
+                                                                    <div class="card">
+                                                                        <div class="card-header">
+                                                                            <h5 class="card-title">Bill</h5>
+                                                                        </div>
+                                                                        <br>
+
+                                                                        <div class="card-body">
+                                                                            <div class="vertical-scroll scroll-demo">
+                                                                                <div class="table-responsive">
+                                                                                    <table class="table table-hover mb-0">
+                                                                                        <thead>
+                                                                                        <tr>
+                                                                                            <th>Tax</th>
+                                                                                            <th>Total Amount</th>
+                                                                                            <th>KDV</th>
+                                                                                            <th>Total With Tax</th>
+                                                                                        </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+
+                                                                                        {% for order in orders %}
+                                                                                            <tr>
+                                                                                                <td>{{ order.product.tax }} $</td>
+                                                                                                <td>{{ order.get_total }} $</td>
+                                                                                                <td>{{ order.get_total_with_tax }} $ </td>
+                                                                                                <td>{{ order.add_totals}} $</td>
+                                                                                            </tr>
+
+                                                                                        {% endfor %}
+
+
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+
+
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                        <div class="card-body" style="height: 250px">
+                                                                            <div class="invoice-total-box">
+
+                                                                                <div class="invoice-total-footer">
+                                                                                    <h4>Last Amount
+                                                                                        <span>{{ order.lastTotals }} $</span><br>
+                                                                                    </h4>
+                                                                                </div>
+
+                                                                                <div class="invoice-total-footer">
+                                                                                    <h4>Total Paid
+                                                                                        <span>{{ order.get_amounts_paid }} $</span><br>
+                                                                                    </h4>
+                                                                                </div>
+
+
+
+
+
+                                                                                <div class="invoice-total-footer">
+                                                                                    <h4>Total Balance
+                                                                                        <span style="color: #6b36de">{{ order.get_balance }} $</span><br>
+                                                                                    </h4>
+                                                                                </div>
+
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="invoice-sign text-end">
-                                                    <span class="d-block">Authorised Sign</span>
-                                                    <img class="img-fluid d-inline-block"
-                                                         src="{% static 'assets/img/signature.png' %}"
-                                                         alt="sign">
-                                                </div>
 
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

@@ -123,11 +123,15 @@
                                                         </h2>
                                                     </td>
                                                     <td>{{ product.type.name }}</td>
-                                                {% if product.quentity  <= 5 %}
+                                                    {% if product.quentity  <= 5 %}
+
                                                         <td>
-                                                            <a class="btn btn-outline-danger"
-                                                                    style="width: 40px">{{ product.quentity }}</a>
+                                                            <div class="spinner-grow text-info"
+                                                                 role="status">
+                                                                <p style="color: red; text-align: center; font-size: 20px">{{ product.quentity }}</p>
+                                                            </div>
                                                         </td>
+
                                                     {% else %}
                                                         <td>{{ product.quentity }}</td>
                                                     {% endif %}
@@ -135,8 +139,13 @@
 
                                                     {% if product.get_stock_items <= 5 %}
                                                         <td>
-                                                            <a class="btn btn-outline-danger"
-                                                                    style="width: 40px">{{ product.get_stock_items }}</a>
+                                                            {#                                                            <a class="btn btn-outline-danger"#}
+                                                            {#                                                               style="width: 40px">{{ product.get_stock_items }}</a>#}
+
+                                                            <div class="spinner-grow text-info"
+                                                                 role="status">
+                                                                <p style="color: red; text-align: center; font-size: 20px">{{ product.get_stock_items }}</p>
+                                                            </div>
                                                         </td>
                                                     {% else %}
                                                         <td>{{ product.get_stock_items }}</td>

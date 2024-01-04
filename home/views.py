@@ -3,9 +3,8 @@ from django.shortcuts import render
 from product.models import *
 from users.models import *
 
-@login_required
+@login_required(login_url='login')
 def index(request):
-
     context = {
         'stocks_name': Stocks.objects.all(),
         'users': User.objects.all(),

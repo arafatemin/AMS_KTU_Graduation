@@ -8,7 +8,7 @@ from .forms import UserForm, ProfileForm
 
 
 
-@login_required
+# @login_required
 def register_view(request):
     if request.method == "POST":
         username = request.POST["username"]
@@ -44,7 +44,7 @@ def register_view(request):
 
     return render(request, "Authentication/register.html")
 
-@login_required
+# @login_required
 def login_view(request):
     if request.method == "POST":
         username = request.POST["username"]

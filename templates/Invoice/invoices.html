@@ -10,7 +10,7 @@
         <div class="page-wrapper">
             <div class="content container-fluid">
 
-            {% for message in messages %}
+                {% for message in messages %}
                     {% if message %}
                         <div class="alert alert-success text-center">
                             {{ message }}
@@ -184,60 +184,72 @@
                                         <tbody>
                                         {% for invoice in invoices %}
                                             <tr>
-                                            <td>
-                                                <a href="{% url 'invoiceCustomerDetail' invoice.id %}" class="invoice-link">#{{invoice.invoice.id}}</a>
-                                            </td>
+                                                <td>
+                                                    <a href="{% url 'invoiceCustomerDetail' invoice.id %}"
+                                                       class="invoice-link">#{{ invoice.invoice.id }}</a>
+                                                </td>
                                                 <td>{{ invoice.customer.name }}</td>
-                                            <td>{{ invoice.datetime|date:'Y-m-d H:m'}}</td>
-                                            <td>${{invoice.get_total}}</td>
-                                            <td>$1,50,000</td>
-                                            <td>Cash</td>
-                                            <td>$2,54,00</td>
+                                                <td>{{ invoice.datetime|date:'Y-m-d H:m' }}</td>
+                                                <td>{{ invoice.get_total }} $</td>
+                                                <td>{{ invoice.get_amounts_paid }} $</td>
+
+                                                {% if invoice.get_payment_method %}
+                                                    <td>{{ invoice.get_payment_method|truncatechars:11 }}</td>
+                                                {% else %}
+                                                    <td>Cash</td>
+
+                                                {% endif %}
 
 
-                                            <td>
-                                                <div class="dropdown dropdown-action">
-                                                    <a href="#" class=" btn-action-icon " data-bs-toggle="dropdown"
-                                                       aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
-                                                    <div class="dropdown-menu dropdown-menu-end customer-dropdown">
-                                                        <ul>
-                                                            <li>
-                                                                <a class="dropdown-item" href="edit-customer.html"><i
-                                                                        class="far fa-edit me-2"></i>Edit</a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item" href="javascript:void(0);"
-                                                                   data-bs-toggle="modal"
-                                                                   data-bs-target="#delete_modal"><i
-                                                                        class="far fa-trash-alt me-2"></i>Delete</a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item" href="customer-details.html"><i
-                                                                        class="far fa-eye me-2"></i>View</a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item" href><i
-                                                                        class="fe fe-send me-2"></i>Send</a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item" href><i
-                                                                        class="fe fe-download me-2"></i>Download</a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item" href="add-credit-notes.html"><i
-                                                                        class="fe fe-file-text me-2"></i>Convert to
-                                                                    Sales
-                                                                    Return</a>
-                                                            </li>
-                                                            <li>
-                                                                <a class="dropdown-item" href><i
-                                                                        class="fe fe-copy me-2"></i>Clone as Invoice</a>
-                                                            </li>
-                                                        </ul>
+                                                <td>{{ invoice.get_balance }} $</td>
+
+
+                                                <td>
+                                                    <div class="dropdown dropdown-action">
+                                                        <a href="#" class=" btn-action-icon " data-bs-toggle="dropdown"
+                                                           aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
+                                                        <div class="dropdown-menu dropdown-menu-end customer-dropdown">
+                                                            <ul>
+                                                                <li>
+                                                                    <a class="dropdown-item"
+                                                                       href="edit-customer.html"><i
+                                                                            class="far fa-edit me-2"></i>Edit</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item" href="javascript:void(0);"
+                                                                       data-bs-toggle="modal"
+                                                                       data-bs-target="#delete_modal"><i
+                                                                            class="far fa-trash-alt me-2"></i>Delete</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item"
+                                                                       href="customer-details.html"><i
+                                                                            class="far fa-eye me-2"></i>View</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item" href><i
+                                                                            class="fe fe-send me-2"></i>Send</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item" href><i
+                                                                            class="fe fe-download me-2"></i>Download</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item"
+                                                                       href="add-credit-notes.html"><i
+                                                                            class="fe fe-file-text me-2"></i>Convert to
+                                                                        Sales
+                                                                        Return</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item" href><i
+                                                                            class="fe fe-copy me-2"></i>Clone as Invoice</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
 
                                         {% endfor %}
 
